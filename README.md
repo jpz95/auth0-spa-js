@@ -1,4 +1,4 @@
-# @auth0/auth0-spa-js
+# @jpz95/auth0-spa-js
 
 Auth0 SDK for Single Page Applications using [Authorization Code Grant Flow with PKCE](https://auth0.com/docs/api-auth/tutorials/authorization-code-grant-pkce).
 
@@ -26,22 +26,16 @@ Auth0 SDK for Single Page Applications using [Authorization Code Grant Flow with
 
 ## Installation
 
-From the CDN:
-
-```html
-<script src="https://cdn.auth0.com/js/auth0-spa-js/1.12/auth0-spa-js.production.js"></script>
-```
-
 Using [npm](https://npmjs.org):
 
 ```sh
-npm install @auth0/auth0-spa-js
+npm install @jpz95/auth0-spa-js
 ```
 
 Using [yarn](https://yarnpkg.com):
 
 ```sh
-yarn add @auth0/auth0-spa-js
+yarn add @jpz95/auth0-spa-js
 ```
 
 ## Getting Started
@@ -51,7 +45,7 @@ yarn add @auth0/auth0-spa-js
 Create an `Auth0Client` instance before rendering or initializing your application. You should only have one instance of the client.
 
 ```js
-import createAuth0Client from '@auth0/auth0-spa-js';
+import createAuth0Client from '@jpz95/auth0-spa-js';
 
 //with async/await
 const auth0 = await createAuth0Client({
@@ -60,17 +54,8 @@ const auth0 = await createAuth0Client({
   redirect_uri: '<MY_CALLBACK_URL>'
 });
 
-//with promises
-createAuth0Client({
-  domain: '<AUTH0_DOMAIN>',
-  client_id: '<AUTH0_CLIENT_ID>',
-  redirect_uri: '<MY_CALLBACK_URL>'
-}).then(auth0 => {
-  //...
-});
-
 //or, you can just instantiate the client on it's own
-import { Auth0Client } from '@auth0/auth0-spa-js';
+import { Auth0Client } from '@jpz95/auth0-spa-js';
 
 const auth0 = new Auth0Client({
   domain: '<AUTH0_DOMAIN>',
@@ -109,25 +94,6 @@ window.addEventListener('load', async () => {
   const user = await auth0.getUser();
   console.log(user);
 });
-
-//with promises
-
-//redirect to the Universal Login Page
-document.getElementById('login').addEventListener('click', () => {
-  auth0.loginWithRedirect().catch(() => {
-    //error while redirecting the user
-  });
-});
-
-//in your callback route (<MY_CALLBACK_URL>)
-window.addEventListener('load', () => {
-  auth0.handleRedirectCallback().then(redirectResult => {
-    //logged in. you can get the user profile like this:
-    auth0.getUser().then(user => {
-      console.log(user);
-    });
-  });
-});
 ```
 
 ### 2 - Calling an API
@@ -136,7 +102,7 @@ window.addEventListener('load', () => {
 <button id="call-api">Call an API</button>
 ```
 
-```js
+````js
 //with async/await
 document.getElementById('call-api').addEventListener('click', async () => {
   const accessToken = await auth0.getTokenSilently();
@@ -150,33 +116,15 @@ document.getElementById('call-api').addEventListener('click', async () => {
   console.log(data);
 });
 
-//with promises
-document.getElementById('call-api').addEventListener('click', () => {
-  auth0
-    .getTokenSilently()
-    .then(accessToken =>
-      fetch('https://myapi.com', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      })
-    )
-    .then(result => result.json())
-    .then(data => {
-      console.log(data);
-    });
-});
-```
 
 ### 3 - Logout
 
 ```html
 <button id="logout">Logout</button>
-```
+````
 
 ```js
-import createAuth0Client from '@auth0/auth0-spa-js';
+import createAuth0Client from '@jpz95/auth0-spa-js';
 
 document.getElementById('logout').addEventListener('click', () => {
   auth0.logout();
@@ -231,31 +179,13 @@ If the fallback mechanism fails, a `login_required` error will be thrown and cou
 
 Advanced options can be set by specifying the `advancedOptions` property when configuring `Auth0Client`. Learn about the complete set of advanced options in the [API documentation](https://auth0.github.io/auth0-spa-js/interfaces/advancedoptions.html)
 
-```js
-createAuth0Client({
-  domain: '<AUTH0_DOMAIN>',
-  client_id: '<AUTH0_CLIENT_ID>',
-  advancedOptions: {
-    defaultScope: 'email' // change the scopes that are applied to every authz request. **Note**: `openid` is always specified regardless of this setting
-  }
-});
-```
-
-## Contributing
-
-We appreciate feedback and contribution to this repo! Before you get started, please see the following:
-
-- [Auth0's general contribution guidelines](https://github.com/auth0/open-source-template/blob/master/GENERAL-CONTRIBUTING.md)
-- [Auth0's code of conduct guidelines](https://github.com/auth0/open-source-template/blob/master/CODE-OF-CONDUCT.md)
-- [This repo's contribution guide](https://github.com/auth0/auth0-spa-js/blob/master/CONTRIBUTING.md)
-
 ## Support + Feedback
 
-For support or to provide feedback, please [raise an issue on our issue tracker](https://github.com/auth0/auth0-spa-js/issues).
+For support or to provide feedback, please [raise an issue on our issue tracker](https://github.com/jpz95/auth0-spa-js/issues).
 
 ## Frequently Asked Questions
 
-For a rundown of common issues you might encounter when using the SDK, please check out [the FAQ](https://github.com/auth0/auth0-spa-js/blob/master/FAQ.md).
+For a rundown of common issues you might encounter when using the SDK, please check out [the FAQ](https://github.com/jpz95/auth0-spa-js/blob/master/FAQ.md).
 
 ## Vulnerability Reporting
 
@@ -276,6 +206,6 @@ Auth0 helps you to easily:
 
 ## License
 
-This project is licensed under the MIT license. See the [LICENSE](https://github.com/auth0/auth0-spa-js/blob/master/LICENSE) file for more info.
+This project is licensed under the MIT license. See the [LICENSE](https://github.com/jpz95/auth0-spa-js/blob/master/LICENSE) file for more info.
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fauth0%2Fauth0-spa-js.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fauth0%2Fauth0-spa-js?ref=badge_large)
