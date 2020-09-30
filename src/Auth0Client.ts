@@ -156,12 +156,7 @@ export default class Auth0Client {
     this.domainUrl = `https://${this.options.domain}`;
     this.tokenIssuer = getTokenIssuer(this.options.issuer, this.domainUrl);
 
-    this.defaultScope = getUniqueScopes(
-      'openid',
-      this.options?.advancedOptions?.defaultScope !== undefined
-        ? this.options.advancedOptions.defaultScope
-        : DEFAULT_SCOPE
-    );
+    this.defaultScope = getUniqueScopes(DEFAULT_SCOPE);
 
     // If using refresh tokens, automatically specify the `offline_access` scope.
     // Note we cannot add this to 'defaultScope' above as the scopes are used in the
@@ -185,17 +180,7 @@ export default class Auth0Client {
   }
 
   private _url(path) {
-    const auth0Client = encodeURIComponent(
-      btoa(
-        JSON.stringify(
-          this.options.auth0Client || {
-            name: 'auth0-spa-js',
-            version: version
-          }
-        )
-      )
-    );
-    return `${this.domainUrl}${path}&auth0Client=${auth0Client}`;
+    return `${this.domainUrl}${path}`;
   }
 
   private _getParams(
@@ -218,11 +203,7 @@ export default class Auth0Client {
     return {
       ...withoutDomain,
       ...authorizeOptions,
-      scope: getUniqueScopes(
-        this.defaultScope,
-        this.scope,
-        authorizeOptions.scope
-      ),
+      scope: getUniqueScopes(this.scope, authorizeOptions.scope),
       response_type: 'code',
       response_mode: 'query',
       state,
@@ -394,7 +375,7 @@ export default class Auth0Client {
    */
   public async getUser(options: GetUserOptions = {}) {
     const audience = options.audience || this.options.audience || 'default';
-    const scope = getUniqueScopes(this.defaultScope, this.scope, options.scope);
+    const scope = getUniqueScopes(this.scope, options.scope);
 
     const cache = this.cache.get({
       client_id: this.options.client_id,
@@ -416,7 +397,7 @@ export default class Auth0Client {
    */
   public async getIdTokenClaims(options: GetIdTokenClaimsOptions = {}) {
     const audience = options.audience || this.options.audience || 'default';
-    const scope = getUniqueScopes(this.defaultScope, this.scope, options.scope);
+    const scope = getUniqueScopes(this.scope, options.scope);
 
     const cache = this.cache.get({
       client_id: this.options.client_id,
@@ -585,7 +566,7 @@ export default class Auth0Client {
       audience: this.options.audience,
       ignoreCache: false,
       ...options,
-      scope: getUniqueScopes(this.defaultScope, this.scope, options.scope)
+      scope: getUniqueScopes(this.scope, options.scope)
     };
 
     const getAccessTokenFromCache = () => {
@@ -656,11 +637,7 @@ export default class Auth0Client {
     config: PopupConfigOptions = {}
   ) {
     options.audience = options.audience || this.options.audience;
-    options.scope = getUniqueScopes(
-      this.defaultScope,
-      this.scope,
-      options.scope
-    );
+    options.scope = getUniqueScopes(this.scope, options.scope);
     config = {
       ...DEFAULT_POPUP_CONFIG_OPTIONS,
       ...config
@@ -805,11 +782,7 @@ export default class Auth0Client {
   private async _getTokenUsingRefreshToken(
     options: GetTokenSilentlyOptions
   ): Promise<any> {
-    options.scope = getUniqueScopes(
-      this.defaultScope,
-      this.options.scope,
-      options.scope
-    );
+    options.scope = getUniqueScopes(this.options.scope, options.scope);
 
     const cache = this.cache.get({
       scope: options.scope,

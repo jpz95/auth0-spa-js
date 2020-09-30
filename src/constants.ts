@@ -35,7 +35,7 @@ export const MISSING_REFRESH_TOKEN_ERROR_MESSAGE =
 /**
  * @ignore
  */
-export const DEFAULT_SCOPE = 'openid profile email';
+export const DEFAULT_SCOPE = '';
 
 /**
  * A list of errors that can be issued by the authorization server which the

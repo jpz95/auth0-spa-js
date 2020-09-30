@@ -7,7 +7,6 @@ import { MessageChannel } from 'worker_threads';
 import * as utils from '../src/utils';
 import { Auth0ClientOptions, IdToken } from '../src';
 import * as scope from '../src/scope';
-import { expectToHaveBeenCalledWithAuth0ClientParam } from './helpers';
 // @ts-ignore
 import { acquireLockSpy } from 'browser-tabs-lock';
 
@@ -134,7 +133,7 @@ describe('Auth0Client', () => {
       }
     });
 
-    expect((<any>auth0).defaultScope).toBe('openid test-scope');
+    expect((<any>auth0).defaultScope).toBe('');
   });
 
   it('allows an empty custom default scope', () => {
@@ -144,7 +143,7 @@ describe('Auth0Client', () => {
       }
     });
 
-    expect((<any>auth0).defaultScope).toBe('openid');
+    expect((<any>auth0).defaultScope).toBe('');
   });
 
   it('should create issuer from domain', () => {
@@ -178,7 +177,7 @@ describe('Auth0Client', () => {
     assertUrlEquals(url, 'auth0_domain', '/authorize', {
       client_id: 'auth0_client_id',
       redirect_uri: 'my_callback_url',
-      scope: 'openid profile email',
+      scope: '',
       response_type: 'code',
       response_mode: 'query',
       state: 'MTIz',
@@ -210,16 +209,6 @@ describe('Auth0Client', () => {
     expect(
       await auth0.getIdTokenClaims({ audience: 'invalid' })
     ).toBeUndefined();
-  });
-
-  it('should log the user in with custom auth0Client', async () => {
-    const auth0Client = { name: '__test_client__', version: '0.0.0' };
-    const auth0 = setup({ auth0Client });
-    await login(auth0);
-    expectToHaveBeenCalledWithAuth0ClientParam(
-      mockWindow.location.assign,
-      auth0Client
-    );
   });
 
   it('should not attempt to log the user in with Object prototype properties as state', async () => {

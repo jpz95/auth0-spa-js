@@ -1,4 +1,3 @@
-import { expectToHaveBeenCalledWithAuth0ClientParam } from './helpers';
 import { CacheLocation, Auth0ClientOptions } from '../src/global';
 import * as scope from '../src/scope';
 // @ts-ignore
@@ -53,14 +52,7 @@ const TEST_REFRESH_TOKEN = 'refresh-token';
 const TEST_USER_ID = 'user-id';
 const TEST_USER_EMAIL = 'user@email.com';
 const TEST_APP_STATE = { bestPet: 'dog' };
-const TEST_AUTH0_CLIENT_QUERY_STRING = `&auth0Client=${encodeURIComponent(
-  btoa(
-    JSON.stringify({
-      name: 'auth0-spa-js',
-      version: version
-    })
-  )
-)}`;
+const TEST_AUTH0_CLIENT_QUERY_STRING = '';
 
 const mockEnclosedCache = {
   get: jest.fn(),
@@ -419,15 +411,6 @@ describe('Auth0', () => {
       );
     });
 
-    it('opens popup with custom auth0Client', async () => {
-      const auth0Client = { name: '__test_client_name__', version: '9.9.9' };
-      const { auth0, utils } = await setup({ auth0Client });
-
-      await auth0.loginWithPopup();
-
-      expectToHaveBeenCalledWithAuth0ClientParam(utils.runPopup, auth0Client);
-    });
-
     it('throws error if state from popup response is different from the provided state', async () => {
       const { auth0, utils } = await setup();
 
@@ -449,7 +432,7 @@ describe('Auth0', () => {
       expect(utils.oauthToken).toHaveBeenCalledWith(
         {
           audience: undefined,
-          scope: 'openid profile email',
+          scope: '',
           baseUrl: 'https://test.auth0.com',
           client_id: TEST_CLIENT_ID,
           code: TEST_CODE,
@@ -485,7 +468,7 @@ describe('Auth0', () => {
       expect(utils.oauthToken).toHaveBeenCalledWith(
         {
           audience: undefined,
-          scope: 'openid profile email',
+          scope: '',
           baseUrl: 'https://test.auth0.com',
           client_id: TEST_CLIENT_ID,
           code: TEST_CODE,
@@ -504,7 +487,7 @@ describe('Auth0', () => {
       expect(utils.oauthToken).toHaveBeenCalledWith(
         {
           audience: 'test-audience',
-          scope: 'openid profile email',
+          scope: '',
           baseUrl: 'https://test.auth0.com',
           client_id: TEST_CLIENT_ID,
           code: TEST_CODE,
@@ -682,7 +665,7 @@ describe('Auth0', () => {
 
       expect(utils.createQueryParams).toHaveBeenCalledWith({
         client_id: TEST_CLIENT_ID,
-        scope: 'openid email',
+        scope: '',
         response_type: TEST_CODE,
         response_mode: 'query',
         state: TEST_ENCODED_STATE,
@@ -703,7 +686,7 @@ describe('Auth0', () => {
 
       expect(utils.createQueryParams).toHaveBeenCalledWith({
         client_id: TEST_CLIENT_ID,
-        scope: `${TEST_SCOPES} offline_access`,
+        scope: `offline_access`,
         response_type: TEST_CODE,
         response_mode: 'query',
         state: TEST_ENCODED_STATE,
@@ -873,18 +856,6 @@ describe('Auth0', () => {
         `https://test.auth0.com/authorize?query=params${TEST_AUTH0_CLIENT_QUERY_STRING}`
       );
     });
-
-    it('redirects to authorize with custom auth0Client', async () => {
-      const auth0Client = { name: '__test_client_name__', version: '9.9.9' };
-      const { auth0, utils } = await setup({ auth0Client });
-
-      await auth0.loginWithRedirect();
-
-      expectToHaveBeenCalledWithAuth0ClientParam(
-        window.location.assign,
-        auth0Client
-      );
-    });
   });
 
   describe('handleRedirectCallback()', () => {
@@ -1042,7 +1013,7 @@ describe('Auth0', () => {
         expect(utils.oauthToken).toHaveBeenCalledWith(
           {
             audience: 'default',
-            scope: 'openid profile email',
+            scope: '',
             baseUrl: 'https://test.auth0.com',
             client_id: TEST_CLIENT_ID,
             code: TEST_CODE,
@@ -1255,7 +1226,7 @@ describe('Auth0', () => {
         expect(utils.oauthToken).toHaveBeenCalledWith(
           {
             audience: 'default',
-            scope: 'openid profile email',
+            scope: '',
             baseUrl: 'https://test.auth0.com',
             client_id: TEST_CLIENT_ID,
             code: TEST_CODE,
@@ -1362,7 +1333,7 @@ describe('Auth0', () => {
 
       expect(cache.get).toHaveBeenCalledWith({
         audience: 'the-audience',
-        scope: `${TEST_SCOPES} the-scope`,
+        scope: `the-scope`,
         client_id: TEST_CLIENT_ID
       });
     });
@@ -1378,7 +1349,7 @@ describe('Auth0', () => {
 
       expect(cache.get).toHaveBeenCalledWith({
         audience: 'the-audience',
-        scope: `openid email the-scope`,
+        scope: `the-scope`,
         client_id: TEST_CLIENT_ID
       });
     });
@@ -1411,18 +1382,18 @@ describe('Auth0', () => {
 
     it('should respect advanced defaultScope option when provided', async () => {
       const { auth0, cache } = await setup({
-        advancedOptions: { defaultScope: 'openid custom-scope' }
+        advancedOptions: { defaultScope: 'custom-scope' }
       });
 
       await auth0.getIdTokenClaims({
         audience: 'the-audience',
-        scope: 'openid custom-scope'
+        scope: 'custom-scope'
       });
 
       expect(cache.get).toHaveBeenCalledWith({
         audience: 'the-audience',
         client_id: TEST_CLIENT_ID,
-        scope: 'openid custom-scope'
+        scope: 'custom-scope'
       });
     });
 
@@ -1436,7 +1407,7 @@ describe('Auth0', () => {
 
         expect(cache.get).toHaveBeenCalledWith({
           audience: 'default',
-          scope: `${TEST_SCOPES} offline_access`,
+          scope: `offline_access`,
           client_id: TEST_CLIENT_ID
         });
       });
@@ -1453,7 +1424,7 @@ describe('Auth0', () => {
 
         expect(cache.get).toHaveBeenCalledWith({
           audience: 'the-audience',
-          scope: `${TEST_SCOPES} offline_access the-scope`,
+          scope: `offline_access the-scope`,
           client_id: TEST_CLIENT_ID
         });
       });
@@ -1482,7 +1453,7 @@ describe('Auth0', () => {
 
         expect(cache.get).toHaveBeenCalledWith({
           audience: 'the-audience',
-          scope: `${TEST_SCOPES} the-scope`,
+          scope: `the-scope`,
           client_id: TEST_CLIENT_ID
         });
       });
@@ -1572,7 +1543,7 @@ describe('Auth0', () => {
           expect(cache.get).toHaveBeenCalledWith(
             {
               audience: 'default',
-              scope: 'openid email',
+              scope: '',
               client_id: TEST_CLIENT_ID
             },
             60
@@ -1593,7 +1564,7 @@ describe('Auth0', () => {
           expect(cache.get).toHaveBeenCalledWith(
             {
               audience: 'default',
-              scope: `${TEST_SCOPES} offline_access`,
+              scope: `offline_access`,
               client_id: TEST_CLIENT_ID
             },
             60
@@ -1619,14 +1590,14 @@ describe('Auth0', () => {
 
           expect(cache.get).toHaveBeenCalledWith({
             audience: 'default',
-            scope: `${TEST_SCOPES} offline_access`,
+            scope: `offline_access`,
             client_id: TEST_CLIENT_ID
           });
 
           expect(utils.oauthToken).toHaveBeenCalledWith(
             {
               audience: undefined,
-              scope: 'openid profile email offline_access',
+              scope: 'offline_access',
               baseUrl: 'https://test.auth0.com',
               refresh_token: TEST_REFRESH_TOKEN,
               client_id: TEST_CLIENT_ID,
@@ -1641,29 +1612,13 @@ describe('Auth0', () => {
             refresh_token: TEST_REFRESH_TOKEN,
             access_token: TEST_ACCESS_TOKEN,
             id_token: TEST_ID_TOKEN,
-            scope: `${TEST_SCOPES} offline_access`,
+            scope: `offline_access`,
             audience: 'default',
             decodedToken: {
               claims: { sub: TEST_USER_ID, aud: TEST_CLIENT_ID },
               user: { sub: TEST_USER_ID }
             }
           });
-        });
-
-        it('loads authorize iframe with custom auth0Client', async () => {
-          const auth0Client = {
-            name: '__test_client_name__',
-            version: '9.9.9'
-          };
-
-          const { auth0, utils } = await setup({ auth0Client });
-
-          await auth0.getTokenSilently();
-
-          expectToHaveBeenCalledWithAuth0ClientParam(
-            utils.runIframe,
-            auth0Client
-          );
         });
 
         it('calls the token endpoint with the correct params with different default scopes', async () => {
@@ -1688,14 +1643,14 @@ describe('Auth0', () => {
 
           expect(cache.get).toHaveBeenCalledWith({
             audience: 'default',
-            scope: `openid email offline_access`,
+            scope: `offline_access`,
             client_id: TEST_CLIENT_ID
           });
 
           expect(utils.oauthToken).toHaveBeenCalledWith(
             {
               audience: undefined,
-              scope: 'openid email offline_access',
+              scope: 'offline_access',
               baseUrl: 'https://test.auth0.com',
               refresh_token: TEST_REFRESH_TOKEN,
               client_id: TEST_CLIENT_ID,
@@ -1710,7 +1665,7 @@ describe('Auth0', () => {
             refresh_token: TEST_REFRESH_TOKEN,
             access_token: TEST_ACCESS_TOKEN,
             id_token: TEST_ID_TOKEN,
-            scope: `openid email offline_access`,
+            scope: `offline_access`,
             audience: 'default',
             decodedToken: {
               claims: { sub: TEST_USER_ID, aud: TEST_CLIENT_ID },
@@ -1772,7 +1727,7 @@ describe('Auth0', () => {
         expect(utils.createQueryParams).toHaveBeenCalledWith({
           audience: defaultOptionsIgnoreCacheTrue.audience,
           client_id: TEST_CLIENT_ID,
-          scope: `${TEST_SCOPES} test:scope`,
+          scope: `test:scope`,
           response_type: TEST_CODE,
           response_mode: 'web_message',
           prompt: 'none',
@@ -1791,7 +1746,7 @@ describe('Auth0', () => {
         expect(utils.createQueryParams).toHaveBeenCalledWith({
           audience: defaultOptionsIgnoreCacheTrue.audience,
           client_id: TEST_CLIENT_ID,
-          scope: `${TEST_SCOPES} test:scope`,
+          scope: `test:scope`,
           response_type: TEST_CODE,
           response_mode: 'web_message',
           prompt: 'none',
@@ -1813,7 +1768,7 @@ describe('Auth0', () => {
         expect(utils.createQueryParams).toHaveBeenCalledWith({
           audience: defaultOptionsIgnoreCacheTrue.audience,
           client_id: TEST_CLIENT_ID,
-          scope: `${TEST_SCOPES} test:scope`,
+          scope: `test:scope`,
           response_type: TEST_CODE,
           response_mode: 'web_message',
           prompt: 'none',
@@ -1833,7 +1788,7 @@ describe('Auth0', () => {
         expect(utils.createQueryParams).toHaveBeenCalledWith({
           audience: defaultOptionsIgnoreCacheTrue.audience,
           client_id: TEST_CLIENT_ID,
-          scope: `${TEST_SCOPES} test:scope`,
+          scope: `test:scope`,
           response_type: TEST_CODE,
           response_mode: 'web_message',
           prompt: 'none',
@@ -1858,7 +1813,7 @@ describe('Auth0', () => {
         expect(utils.createQueryParams).toHaveBeenCalledWith({
           audience: defaultOptionsIgnoreCacheTrue.audience,
           client_id: TEST_CLIENT_ID,
-          scope: `${TEST_SCOPES} test:scope`,
+          scope: `test:scope`,
           response_type: TEST_CODE,
           response_mode: 'web_message',
           prompt: 'none',
@@ -1930,7 +1885,7 @@ describe('Auth0', () => {
         expect(utils.oauthToken).toHaveBeenCalledWith(
           {
             audience: 'test:audience',
-            scope: 'openid profile email test:scope',
+            scope: 'test:scope',
             baseUrl: 'https://test.auth0.com',
             client_id: TEST_CLIENT_ID,
             code: TEST_CODE,
@@ -1964,7 +1919,7 @@ describe('Auth0', () => {
           access_token: TEST_ACCESS_TOKEN,
           audience: defaultOptionsIgnoreCacheTrue.audience,
           id_token: TEST_ID_TOKEN,
-          scope: `${TEST_SCOPES} test:scope`,
+          scope: `test:scope`,
           decodedToken: {
             claims: { sub: TEST_USER_ID, aud: TEST_CLIENT_ID },
             user: { sub: TEST_USER_ID }
@@ -2033,7 +1988,7 @@ describe('Auth0', () => {
       expect(auth0.loginWithPopup).toHaveBeenCalledWith(
         {
           audience: undefined,
-          scope: 'openid email'
+          scope: ''
         },
         DEFAULT_POPUP_CONFIG_OPTIONS
       );
@@ -2053,7 +2008,7 @@ describe('Auth0', () => {
       expect(auth0.loginWithPopup).toHaveBeenCalledWith(
         {
           audience: 'other-audience',
-          scope: `${TEST_SCOPES} other-scope`
+          scope: `other-scope`
         },
         configOptions
       );
@@ -2085,7 +2040,7 @@ describe('Auth0', () => {
       expect(auth0.loginWithPopup).toHaveBeenCalledWith(
         {
           audience: 'foo',
-          scope: 'openid profile email'
+          scope: ''
         },
         { timeoutInSeconds: 60 }
       );
@@ -2098,7 +2053,7 @@ describe('Auth0', () => {
       expect(auth0.loginWithPopup).toHaveBeenCalledWith(
         {
           audience: 'foo',
-          scope: 'openid profile email bar'
+          scope: 'bar'
         },
         { timeoutInSeconds: 60, popup: 'baz' }
       );
@@ -2170,16 +2125,6 @@ describe('Auth0', () => {
       auth0.logout({ federated: true });
       expect(window.location.assign).toHaveBeenCalledWith(
         `https://test.auth0.com/v2/logout?query=params${TEST_AUTH0_CLIENT_QUERY_STRING}&federated`
-      );
-    });
-
-    it('calls `window.location.assign` with the correct url with custom `options.auth0Client`', async () => {
-      const auth0Client = { name: '__test_client_name__', version: '9.9.9' };
-      const { auth0 } = await setup({ auth0Client });
-      auth0.logout();
-      expectToHaveBeenCalledWithAuth0ClientParam(
-        window.location.assign,
-        auth0Client
       );
     });
 
