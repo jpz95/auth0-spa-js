@@ -100,6 +100,21 @@ const getTokenIssuer = (issuer, domainUrl) => {
 /**
  * @ignore
  */
+const getTokenUrl = (endpoint: string, domainUrl: string) => {
+  if (endpoint) {
+    const isFullyQualifiedUrl = endpoint.startsWith('https://');
+    const isUrlPath = endpoint.startsWith('/');
+
+    if (isFullyQualifiedUrl || isUrlPath) {
+      return isFullyQualifiedUrl ? endpoint : `${domainUrl}${endpoint}`;
+    }
+  }
+  return `${domainUrl}/oauth/token`;
+};
+
+/**
+ * @ignore
+ */
 const getCustomInitialOptions = (
   options: Auth0ClientOptions
 ): BaseLoginOptions => {
@@ -130,6 +145,7 @@ export default class Auth0Client {
   private transactionManager: TransactionManager;
   private customOptions: BaseLoginOptions;
   private domainUrl: string;
+  private tokenUrl: string;
   private tokenIssuer: string;
   private defaultScope: string;
   private scope: string;
@@ -154,6 +170,7 @@ export default class Auth0Client {
     this.scope = this.options.scope;
     this.transactionManager = new TransactionManager(SessionStorage);
     this.domainUrl = `https://${this.options.domain}`;
+    this.tokenUrl = getTokenUrl(this.options.tokenEndpoint, this.domainUrl);
     this.tokenIssuer = getTokenIssuer(this.options.issuer, this.domainUrl);
 
     this.defaultScope = getUniqueScopes(DEFAULT_SCOPE);
@@ -336,7 +353,7 @@ export default class Auth0Client {
       {
         audience: params.audience,
         scope: params.scope,
-        baseUrl: this.domainUrl,
+        baseUrl: this.tokenUrl,
         client_id: this.options.client_id,
         code_verifier,
         code: codeResult.code,
@@ -464,7 +481,7 @@ export default class Auth0Client {
     const tokenOptions = {
       audience: transaction.audience,
       scope: transaction.scope,
-      baseUrl: this.domainUrl,
+      baseUrl: this.tokenUrl,
       client_id: this.options.client_id,
       code_verifier: transaction.code_verifier,
       grant_type: 'authorization_code',
@@ -759,7 +776,7 @@ export default class Auth0Client {
         ...customOptions,
         scope,
         audience,
-        baseUrl: this.domainUrl,
+        baseUrl: this.tokenUrl,
         client_id: this.options.client_id,
         code_verifier,
         code: codeResult.code,
@@ -819,7 +836,7 @@ export default class Auth0Client {
           ...customOptions,
           audience,
           scope,
-          baseUrl: this.domainUrl,
+          baseUrl: this.tokenUrl,
           client_id: this.options.client_id,
           grant_type: 'refresh_token',
           refresh_token: cache && cache.refresh_token,

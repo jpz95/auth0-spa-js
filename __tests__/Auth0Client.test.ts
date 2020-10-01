@@ -170,6 +170,39 @@ describe('Auth0Client', () => {
     expect((<any>auth0).tokenIssuer).toEqual('https://some.issuer.com/');
   });
 
+  it('should allow an empty token endpoint', () => {
+    const auth0 = setup({
+      tokenEndpoint: null
+    });
+
+    expect((<any>auth0).tokenUrl).toEqual('https://auth0_domain/oauth/token');
+  });
+
+  it('should handle a bad token endpoint as an empty one', () => {
+    const auth0 = setup({
+      tokenEndpoint: 'garbage//'
+    });
+
+    expect((<any>auth0).tokenUrl).toEqual('https://auth0_domain/oauth/token');
+  });
+
+  it('should allow a token endpoint as a path', () => {
+    const auth0 = setup({
+      domain: 'test.dev',
+      tokenEndpoint: '/auth/token'
+    });
+
+    expect((<any>auth0).tokenUrl).toEqual(`https://test.dev/auth/token`);
+  });
+
+  it('should allow a token endpoint as a fully qualified url', () => {
+    const auth0 = setup({
+      tokenEndpoint: 'https://some.domain/token'
+    });
+
+    expect((<any>auth0).tokenUrl).toEqual('https://some.domain/token');
+  });
+
   it('should log the user in and get the token', async () => {
     const auth0 = setup();
     await login(auth0);

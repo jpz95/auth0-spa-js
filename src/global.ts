@@ -82,6 +82,12 @@ export interface Auth0ClientOptions extends BaseLoginOptions {
    */
   domain: string;
   /**
+   * The endpoint used to get an API's access token. It assumes the domain is the host
+   * and appends the token endpoint to it (ex. `'example.mycompany.com'` + `'/my/token'`).
+   * Alternatively, you may provide the full URL (ex. `'https://example.mycompany.com/my/token'`)
+   */
+  tokenEndpoint?: string;
+  /**
    * The issuer to be used for validation of JWTs, optionally defaults to the domain above
    */
   issuer?: string;
