@@ -97,6 +97,9 @@
     "Single Page Application authentication",
     "SPA authentication"
   ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "ccu": {
     "name": "auth0-spa-js",
     "cdn": "https://cdn.auth0.com",
