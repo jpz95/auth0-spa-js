@@ -9,4 +9,4 @@ cypress/videos
 .idea
 test-results
 yarn.lock
-
+.npmrc

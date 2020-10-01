@@ -8,3 +8,4 @@ rollup.config.js
 tsconfig.json
 .rpt2_cache
 .vscode
+.npmrc
