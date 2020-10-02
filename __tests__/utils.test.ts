@@ -277,7 +277,7 @@ describe('utils', () => {
 
       await oauthToken({
         grant_type: 'authorization_code',
-        baseUrl: 'https://test.com',
+        baseUrl: 'https://test.com/oauth/token',
         client_id: 'client_idIn',
         code: 'codeIn',
         code_verifier: 'code_verifierIn'
@@ -313,7 +313,7 @@ describe('utils', () => {
       await oauthToken(
         {
           grant_type: 'authorization_code',
-          baseUrl: 'https://test.com',
+          baseUrl: 'https://test.com/oauth/token',
           client_id: 'client_idIn',
           code: 'codeIn',
           code_verifier: 'code_verifierIn',
@@ -364,7 +364,7 @@ describe('utils', () => {
 
       try {
         await oauthToken({
-          baseUrl: 'https://test.com',
+          baseUrl: 'https://test.com/oauth/token',
           client_id: 'client_idIn',
           code: 'codeIn',
           code_verifier: 'code_verifierIn'
@@ -388,7 +388,7 @@ describe('utils', () => {
 
       try {
         await oauthToken({
-          baseUrl: 'https://test.com',
+          baseUrl: 'https://test.com/oauth/token',
           client_id: 'client_idIn',
           code: 'codeIn',
           code_verifier: 'code_verifierIn'
@@ -413,7 +413,7 @@ describe('utils', () => {
 
       try {
         await oauthToken({
-          baseUrl: 'https://test.com',
+          baseUrl: 'https://test.com/oauth/token',
           client_id: 'client_idIn',
           code: 'codeIn',
           code_verifier: 'code_verifierIn'
@@ -443,7 +443,7 @@ describe('utils', () => {
         );
 
       const result = await oauthToken({
-        baseUrl: 'https://test.com',
+        baseUrl: 'https://test.com/oauth/token',
         client_id: 'client_idIn',
         code: 'codeIn',
         code_verifier: 'code_verifierIn'
@@ -459,7 +459,7 @@ describe('utils', () => {
 
       await expect(
         oauthToken({
-          baseUrl: 'https://test.com',
+          baseUrl: 'https://test.com/oauth/token',
           client_id: 'client_idIn',
           code: 'codeIn',
           code_verifier: 'code_verifierIn'
@@ -484,7 +484,7 @@ describe('utils', () => {
 
       try {
         await oauthToken({
-          baseUrl: 'https://test.com',
+          baseUrl: 'https://test.com/oauth/token',
           client_id: 'client_idIn',
           code: 'codeIn',
           code_verifier: 'code_verifierIn',
@@ -512,7 +512,7 @@ describe('utils', () => {
       mockUnfetch.mockReturnValue(Promise.resolve(fetchResult));
 
       const result = await oauthToken({
-        baseUrl: 'https://test.com',
+        baseUrl: 'https://test.com/oauth/token',
         client_id: 'client_idIn',
         code: 'codeIn',
         code_verifier: 'code_verifierIn',

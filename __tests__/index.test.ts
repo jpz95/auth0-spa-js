@@ -433,7 +433,7 @@ describe('Auth0', () => {
         {
           audience: undefined,
           scope: '',
-          baseUrl: 'https://test.auth0.com',
+          baseUrl: 'https://test.auth0.com/oauth/token',
           client_id: TEST_CLIENT_ID,
           code: TEST_CODE,
           code_verifier: TEST_RANDOM_STRING,
@@ -469,7 +469,7 @@ describe('Auth0', () => {
         {
           audience: undefined,
           scope: '',
-          baseUrl: 'https://test.auth0.com',
+          baseUrl: 'https://test.auth0.com/oauth/token',
           client_id: TEST_CLIENT_ID,
           code: TEST_CODE,
           code_verifier: TEST_RANDOM_STRING,
@@ -488,7 +488,7 @@ describe('Auth0', () => {
         {
           audience: 'test-audience',
           scope: '',
-          baseUrl: 'https://test.auth0.com',
+          baseUrl: 'https://test.auth0.com/oauth/token',
           client_id: TEST_CLIENT_ID,
           code: TEST_CODE,
           code_verifier: TEST_RANDOM_STRING,
@@ -1014,7 +1014,7 @@ describe('Auth0', () => {
           {
             audience: 'default',
             scope: '',
-            baseUrl: 'https://test.auth0.com',
+            baseUrl: 'https://test.auth0.com/oauth/token',
             client_id: TEST_CLIENT_ID,
             code: TEST_CODE,
             code_verifier: TEST_RANDOM_STRING,
@@ -1227,7 +1227,7 @@ describe('Auth0', () => {
           {
             audience: 'default',
             scope: '',
-            baseUrl: 'https://test.auth0.com',
+            baseUrl: 'https://test.auth0.com/oauth/token',
             client_id: TEST_CLIENT_ID,
             code: TEST_CODE,
             code_verifier: TEST_RANDOM_STRING,
@@ -1598,7 +1598,7 @@ describe('Auth0', () => {
             {
               audience: undefined,
               scope: 'offline_access',
-              baseUrl: 'https://test.auth0.com',
+              baseUrl: 'https://test.auth0.com/oauth/token',
               refresh_token: TEST_REFRESH_TOKEN,
               client_id: TEST_CLIENT_ID,
               grant_type: 'refresh_token',
@@ -1651,7 +1651,7 @@ describe('Auth0', () => {
             {
               audience: undefined,
               scope: 'offline_access',
-              baseUrl: 'https://test.auth0.com',
+              baseUrl: 'https://test.auth0.com/oauth/token',
               refresh_token: TEST_REFRESH_TOKEN,
               client_id: TEST_CLIENT_ID,
               grant_type: 'refresh_token',
@@ -1886,7 +1886,7 @@ describe('Auth0', () => {
           {
             audience: 'test:audience',
             scope: 'test:scope',
-            baseUrl: 'https://test.auth0.com',
+            baseUrl: 'https://test.auth0.com/oauth/token',
             client_id: TEST_CLIENT_ID,
             code: TEST_CODE,
             code_verifier: TEST_RANDOM_STRING,
