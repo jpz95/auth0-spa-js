@@ -49,8 +49,9 @@ import createAuth0Client from '@jpz95/auth0-spa-js';
 
 //with async/await
 const auth0 = await createAuth0Client({
-  domain: '<AUTH0_DOMAIN>',
-  client_id: '<AUTH0_CLIENT_ID>',
+  domain: '<API_DOMAIN>',
+  tokenEndpoint: '<API_TOKEN_ENDPOINT>',
+  client_id: '<API_CLIENT_ID>',
   redirect_uri: '<MY_CALLBACK_URL>'
 });
 
@@ -58,8 +59,9 @@ const auth0 = await createAuth0Client({
 import { Auth0Client } from '@jpz95/auth0-spa-js';
 
 const auth0 = new Auth0Client({
-  domain: '<AUTH0_DOMAIN>',
-  client_id: '<AUTH0_CLIENT_ID>',
+  domain: '<API_DOMAIN>',
+  tokenEndpoint: '<API_TOKEN_ENDPOINT>',
+  client_id: '<API_CLIENT_ID>',
   redirect_uri: '<MY_CALLBACK_URL>'
 });
 
