@@ -100,14 +100,14 @@ const getTokenIssuer = (issuer, domainUrl) => {
 /**
  * @ignore
  */
-const getTokenUrl = (endpoint: string, domainUrl: string) => {
-  if (endpoint) {
-    const isFullyQualifiedUrl = endpoint.startsWith('https://');
-    const isUrlPath = endpoint.startsWith('/');
-
-    if (isFullyQualifiedUrl || isUrlPath) {
-      return isFullyQualifiedUrl ? endpoint : `${domainUrl}${endpoint}`;
-    }
+const getTokenUrl = (
+  endpoint: string = '',
+  domainUrl: string
+  /* TODO add `tokenUrl`, in case the base is different than the domain */
+) => {
+  const isUrlPath = endpoint.startsWith('/');
+  if (isUrlPath) {
+    return `${domainUrl}${endpoint}`;
   }
   return `${domainUrl}/oauth/token`;
 };
@@ -174,13 +174,6 @@ export default class Auth0Client {
     this.tokenIssuer = getTokenIssuer(this.options.issuer, this.domainUrl);
 
     this.defaultScope = getUniqueScopes(DEFAULT_SCOPE);
-
-    // If using refresh tokens, automatically specify the `offline_access` scope.
-    // Note we cannot add this to 'defaultScope' above as the scopes are used in the
-    // cache keys - changing the order could invalidate the keys
-    if (this.options.useRefreshTokens) {
-      this.scope = getUniqueScopes(this.scope, 'offline_access');
-    }
 
     // Don't use web workers unless using refresh tokens in memory and not IE11
     if (

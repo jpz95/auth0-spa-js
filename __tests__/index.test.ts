@@ -686,7 +686,7 @@ describe('Auth0', () => {
 
       expect(utils.createQueryParams).toHaveBeenCalledWith({
         client_id: TEST_CLIENT_ID,
-        scope: `offline_access`,
+        scope: '',
         response_type: TEST_CODE,
         response_mode: 'query',
         state: TEST_ENCODED_STATE,
@@ -1398,7 +1398,7 @@ describe('Auth0', () => {
     });
 
     describe('when using refresh tokens', () => {
-      it('uses default options with offine_access', async () => {
+      it('uses default options', async () => {
         const { auth0, cache } = await setup({
           useRefreshTokens: true
         });
@@ -1407,12 +1407,12 @@ describe('Auth0', () => {
 
         expect(cache.get).toHaveBeenCalledWith({
           audience: 'default',
-          scope: `offline_access`,
+          scope: '',
           client_id: TEST_CLIENT_ID
         });
       });
 
-      it('uses custom options when provided with offline_access', async () => {
+      it('uses custom options when provided with refresh option', async () => {
         const { auth0, cache, utils } = await setup({
           useRefreshTokens: true
         });
@@ -1424,7 +1424,7 @@ describe('Auth0', () => {
 
         expect(cache.get).toHaveBeenCalledWith({
           audience: 'the-audience',
-          scope: `offline_access the-scope`,
+          scope: `the-scope`,
           client_id: TEST_CLIENT_ID
         });
       });
@@ -1564,7 +1564,7 @@ describe('Auth0', () => {
           expect(cache.get).toHaveBeenCalledWith(
             {
               audience: 'default',
-              scope: `offline_access`,
+              scope: ``,
               client_id: TEST_CLIENT_ID
             },
             60
@@ -1590,14 +1590,14 @@ describe('Auth0', () => {
 
           expect(cache.get).toHaveBeenCalledWith({
             audience: 'default',
-            scope: `offline_access`,
+            scope: ``,
             client_id: TEST_CLIENT_ID
           });
 
           expect(utils.oauthToken).toHaveBeenCalledWith(
             {
               audience: undefined,
-              scope: 'offline_access',
+              scope: '',
               baseUrl: 'https://test.auth0.com/oauth/token',
               refresh_token: TEST_REFRESH_TOKEN,
               client_id: TEST_CLIENT_ID,
@@ -1612,7 +1612,7 @@ describe('Auth0', () => {
             refresh_token: TEST_REFRESH_TOKEN,
             access_token: TEST_ACCESS_TOKEN,
             id_token: TEST_ID_TOKEN,
-            scope: `offline_access`,
+            scope: ``,
             audience: 'default',
             decodedToken: {
               claims: { sub: TEST_USER_ID, aud: TEST_CLIENT_ID },
@@ -1643,14 +1643,14 @@ describe('Auth0', () => {
 
           expect(cache.get).toHaveBeenCalledWith({
             audience: 'default',
-            scope: `offline_access`,
+            scope: ``,
             client_id: TEST_CLIENT_ID
           });
 
           expect(utils.oauthToken).toHaveBeenCalledWith(
             {
               audience: undefined,
-              scope: 'offline_access',
+              scope: '',
               baseUrl: 'https://test.auth0.com/oauth/token',
               refresh_token: TEST_REFRESH_TOKEN,
               client_id: TEST_CLIENT_ID,
@@ -1665,7 +1665,7 @@ describe('Auth0', () => {
             refresh_token: TEST_REFRESH_TOKEN,
             access_token: TEST_ACCESS_TOKEN,
             id_token: TEST_ID_TOKEN,
-            scope: `offline_access`,
+            scope: ``,
             audience: 'default',
             decodedToken: {
               claims: { sub: TEST_USER_ID, aud: TEST_CLIENT_ID },
@@ -2239,7 +2239,7 @@ describe('default creation function', () => {
         ...options
       });
 
-      expect((<any>auth0).scope).toBe('the-scope offline_access');
+      expect((<any>auth0).scope).toBe('the-scope');
 
       expect(auth0.getTokenSilently).toHaveBeenCalledWith(undefined);
     });

@@ -49,8 +49,8 @@ import createAuth0Client from '@jpz95/auth0-spa-js';
 
 //with async/await
 const auth0 = await createAuth0Client({
-  domain: '<API_DOMAIN>',
-  tokenEndpoint: '<API_TOKEN_ENDPOINT>',
+  domain: 'example.somesite.com', // we will prepend 'https://'
+  tokenEndpoint: '/path/to/token', // forms https://example.somesite.com/path/to/token
   client_id: '<API_CLIENT_ID>',
   redirect_uri: '<MY_CALLBACK_URL>'
 });
@@ -59,8 +59,8 @@ const auth0 = await createAuth0Client({
 import { Auth0Client } from '@jpz95/auth0-spa-js';
 
 const auth0 = new Auth0Client({
-  domain: '<API_DOMAIN>',
-  tokenEndpoint: '<API_TOKEN_ENDPOINT>',
+  domain: 'example.somesite.com', // we will prepend 'https://'
+  tokenEndpoint: '/path/to/token', // forms https://example.somesite.com/path/to/token
   client_id: '<API_CLIENT_ID>',
   redirect_uri: '<MY_CALLBACK_URL>'
 });
@@ -141,8 +141,8 @@ To use the in-memory mode, no additional options need are required as this is th
 
 ```js
 await createAuth0Client({
-  domain: '<AUTH0_DOMAIN>',
-  client_id: '<AUTH0_CLIENT_ID>',
+  domain: 'example.somesite.com', // we will prepend 'https://'
+  client_id: '<API_CLIENT_ID>',
   redirect_uri: '<MY_CALLBACK_URL>',
   cacheLocation: 'localstorage' // valid values are: 'memory' or 'localstorage'
 });
@@ -158,16 +158,14 @@ To enable the use of refresh tokens, set the `useRefreshTokens` option to `true`
 
 ```js
 await createAuth0Client({
-  domain: '<AUTH0_DOMAIN>',
-  client_id: '<AUTH0_CLIENT_ID>',
+  domain: 'example.somesite.com', // we will prepend 'https://'
+  client_id: '<API_CLIENT_ID>',
   redirect_uri: '<MY_CALLBACK_URL>',
   useRefreshTokens: true
 });
 ```
 
-Using this setting will cause the SDK to automatically send the `offline_access` scope to the authorization server. Refresh tokens will then be used to exchange for new access tokens instead of using a hidden iframe, and calls the `/oauth/token` endpoint directly. This means that in most cases the SDK does not rely on third-party cookies when using refresh tokens.
-
-**Note** This configuration option requires Rotating Refresh Tokens to be [enabled for your Auth0 Tenant](https://auth0.com/docs/tokens/guides/configure-refresh-token-rotation).
+Using this setting will cause the SDK to automatically request a new refresh token from the authorization server. Refresh tokens will then be used to exchange for new access tokens instead of using a hidden iframe, and calls the token endpoint directly. This means that in most cases the SDK does not rely on third-party cookies when using refresh tokens.
 
 #### Refresh Token fallback
 

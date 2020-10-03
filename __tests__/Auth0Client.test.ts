@@ -117,15 +117,6 @@ describe('Auth0Client', () => {
     jest.clearAllMocks();
   });
 
-  it('automatically adds the offline_access scope during construction', () => {
-    const auth0 = setup({
-      useRefreshTokens: true,
-      scope: 'test-scope'
-    });
-
-    expect((<any>auth0).scope).toBe('test-scope offline_access');
-  });
-
   it('ensures the openid scope is defined when customizing default scopes', () => {
     const auth0 = setup({
       advancedOptions: {
