@@ -2818,10 +2818,8 @@ img {
 			<a href="#jpz95auth0-spa-js" id="jpz95auth0-spa-js" style="color: inherit; text-decoration: none;">
 				<h1>@jpz95/auth0-spa-js</h1>
 			</a>
-			<p>Auth0 SDK for Single Page Applications using <a href="https://auth0.com/docs/api-auth/tutorials/authorization-code-grant-pkce">Authorization Code Grant Flow with PKCE</a>.</p>
-			<p><a href="https://circleci.com/gh/auth0/auth0-spa-js"><img src="https://circleci.com/gh/auth0/auth0-spa-js.svg?style=svg" alt="CircleCI"></a>
-				<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/:license-mit-blue.svg?style=flat" alt="License"></a>
-			<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fauth0%2Fauth0-spa-js?ref=badge_shield"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fauth0%2Fauth0-spa-js.svg?type=shield" alt="FOSSA Status"></a></p>
+			<p>Auth0 SDK for Single Page Applications using <a href="https://auth0.com/docs/flows/authorization-code-flow-with-proof-key-for-code-exchange-pkce">Authorization Code Grant Flow with PKCE</a>.</p>
+			<p><a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/:license-mit-blue.svg?style=flat" alt="License"></a></p>
 			<a href="#table-of-contents" id="table-of-contents" style="color: inherit; text-decoration: none;">
 				<h2>Table of Contents</h2>
 			</a>
@@ -2832,17 +2830,13 @@ img {
 				<li><a href="#contributing">Contributing</a></li>
 				<li><a href="#support--feedback">Support + Feedback</a></li>
 				<li><a href="#frequently-asked-questions">Frequently Asked Questions</a></li>
-				<li><a href="#vulnerability-reporting">Vulnerability Reporting</a></li>
-				<li><a href="#what-is-auth0">What is Auth0</a></li>
 				<li><a href="#license">License</a></li>
 			</ul>
-			<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
-				<h2>Documentation</h2>
+			<a href="#api-docs" id="api-docs" style="color: inherit; text-decoration: none;">
+				<h2>API Docs</h2>
 			</a>
 			<ul>
-				<li><a href="https://auth0.com/docs/libraries/auth0-spa-js">Documentation</a></li>
-				<li><a href="https://auth0.github.io/auth0-spa-js/">API reference</a></li>
-				<li><a href="https://auth0.com/docs/libraries/auth0-spa-js/migrate-from-auth0js">Migrate from Auth0.js to the Auth0 Single Page App SDK</a></li>
+				<li><a href="https://jpz95.github.io/auth0-spa-js/">API reference</a></li>
 			</ul>
 			<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 				<h2>Installation</h2>
@@ -2940,6 +2934,8 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 			<p>To use the in-memory mode, no additional options need are required as this is the default setting. To configure the SDK to cache data using local storage, set <code>cacheLocation</code> as follows:</p>
 			<pre><code class="language-js"><span class="hljs-keyword">await</span> createAuth0Client({
   <span class="hljs-attr">domain</span>: <span class="hljs-string">&#x27;example.somesite.com&#x27;</span>, <span class="hljs-comment">// we will prepend &#x27;https://&#x27;</span>
+  <span class="hljs-attr">authorizeEndpoint</span>: <span class="hljs-string">&#x27;/path/to/auth&#x27;</span>, <span class="hljs-comment">// forms https://example.somesite.com/path/to/auth</span>
+  <span class="hljs-attr">tokenEndpoint</span>: <span class="hljs-string">&#x27;/path/to/token&#x27;</span>, <span class="hljs-comment">// forms https://example.somesite.com/path/to/token</span>
   <span class="hljs-attr">client_id</span>: <span class="hljs-string">&#x27;&lt;API_CLIENT_ID&gt;&#x27;</span>,
   <span class="hljs-attr">redirect_uri</span>: <span class="hljs-string">&#x27;&lt;MY_CALLBACK_URL&gt;&#x27;</span>,
   <span class="hljs-attr">cacheLocation</span>: <span class="hljs-string">&#x27;localstorage&#x27;</span> <span class="hljs-comment">// valid values are: &#x27;memory&#x27; or &#x27;localstorage&#x27;</span>
@@ -2965,10 +2961,6 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 			<p>In all cases where a refresh token is not available, the SDK falls back to the legacy technique of using a hidden iframe with <code>prompt=none</code> to try and get a new access token and refresh token. This scenario would occur for example if you are using the in-memory cache and you have refreshed the page. In this case, any refresh token that was stored previously would be lost.</p>
 			<p>If the fallback mechanism fails, a <code>login_required</code> error will be thrown and could be handled in order to put the user back through the authentication process.</p>
 			<p><strong>Note</strong>: This fallback mechanism does still require access to the Auth0 session cookie, so if third-party cookies are being blocked then this fallback will not work and the user must re-authenticate in order to get a new refresh token.</p>
-			<a href="#advanced-options" id="advanced-options" style="color: inherit; text-decoration: none;">
-				<h3>Advanced options</h3>
-			</a>
-			<p>Advanced options can be set by specifying the <code>advancedOptions</code> property when configuring <code>Auth0Client</code>. Learn about the complete set of advanced options in the <a href="https://auth0.github.io/auth0-spa-js/interfaces/advancedoptions.html">API documentation</a></p>
 			<a href="#support--feedback" id="support--feedback" style="color: inherit; text-decoration: none;">
 				<h2>Support + Feedback</h2>
 			</a>
@@ -2977,28 +2969,10 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 				<h2>Frequently Asked Questions</h2>
 			</a>
 			<p>For a rundown of common issues you might encounter when using the SDK, please check out <a href="https://github.com/jpz95/auth0-spa-js/blob/master/FAQ.md">the FAQ</a>.</p>
-			<a href="#vulnerability-reporting" id="vulnerability-reporting" style="color: inherit; text-decoration: none;">
-				<h2>Vulnerability Reporting</h2>
-			</a>
-			<p>Please do not report security vulnerabilities on the public GitHub issue tracker. The <a href="https://auth0.com/whitehat">Responsible Disclosure Program</a> details the procedure for disclosing security issues.</p>
-			<a href="#what-is-auth0" id="what-is-auth0" style="color: inherit; text-decoration: none;">
-				<h2>What is Auth0?</h2>
-			</a>
-			<p>Auth0 helps you to easily:</p>
-			<ul>
-				<li>implement authentication with multiple identity providers, including social (e.g., Google, Facebook, Microsoft, LinkedIn, GitHub, Twitter, etc), or enterprise (e.g., Windows Azure AD, Google Apps, Active Directory, ADFS, SAML, etc.)</li>
-				<li>log in users with username/password databases, passwordless, or multi-factor authentication</li>
-				<li>link multiple user accounts together</li>
-				<li>generate signed JSON Web Tokens to authorize your API calls and flow the user identity securely</li>
-				<li>access demographics and analytics detailing how, when, and where users are logging in</li>
-				<li>enrich user profiles from other data sources using customizable JavaScript rules</li>
-			</ul>
-			<p><a href="https://auth0.com/why-auth0">Why Auth0?</a></p>
 			<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 				<h2>License</h2>
 			</a>
 			<p>This project is licensed under the MIT license. See the <a href="https://github.com/jpz95/auth0-spa-js/blob/master/LICENSE">LICENSE</a> file for more info.</p>
-			<p><a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fauth0%2Fauth0-spa-js?ref=badge_large"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fauth0%2Fauth0-spa-js.svg?type=large" alt="FOSSA Status"></a></p>
 		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
 		<section class="tsd-panel-group tsd-index-group">
@@ -3071,7 +3045,7 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 				<div class="tsd-signature tsd-kind-icon">Cache<wbr>Location<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"memory"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"localstorage"</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/global.ts#L164">src/global.ts:164</a></li>
+						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/414b6ad/src/global.ts#L164">src/global.ts:164</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3086,7 +3060,7 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 				<div class="tsd-signature tsd-kind-icon">get<wbr>IdToken<wbr>Claims<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="interfaces/getidtokenclaimsoptions.html" class="tsd-signature-type">GetIdTokenClaimsOptions</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/global.ts#L247">src/global.ts:247</a></li>
+						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/414b6ad/src/global.ts#L247">src/global.ts:247</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3099,7 +3073,7 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 				<div class="tsd-signature tsd-kind-icon">CACHE_<wbr>LOCATION_<wbr>LOCAL_<wbr>STORAGE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"localstorage"</span><span class="tsd-signature-symbol"> = &quot;localstorage&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/constants.ts#L31">src/constants.ts:31</a></li>
+						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/414b6ad/src/constants.ts#L31">src/constants.ts:31</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3109,7 +3083,7 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 				<div class="tsd-signature tsd-kind-icon">CACHE_<wbr>LOCATION_<wbr>MEMORY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"memory"</span><span class="tsd-signature-symbol"> = &quot;memory&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/constants.ts#L30">src/constants.ts:30</a></li>
+						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/414b6ad/src/constants.ts#L30">src/constants.ts:30</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3119,7 +3093,7 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 				<div class="tsd-signature tsd-kind-icon">MISSING_<wbr>REFRESH_<wbr>TOKEN_<wbr>ERROR_<wbr>MESSAGE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"The web worker is missing the refresh token"</span><span class="tsd-signature-symbol"> = &quot;The web worker is missing the refresh token&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/constants.ts#L32">src/constants.ts:32</a></li>
+						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/414b6ad/src/constants.ts#L32">src/constants.ts:32</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3129,7 +3103,7 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 				<div class="tsd-signature tsd-kind-icon">refresh<wbr>Tokens<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/token.worker.ts#L3">src/token.worker.ts:3</a></li>
+						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/414b6ad/src/token.worker.ts#L3">src/token.worker.ts:3</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -3151,7 +3125,7 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/token.worker.ts#L5">src/token.worker.ts:5</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/414b6ad/src/token.worker.ts#L5">src/token.worker.ts:5</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3177,7 +3151,7 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/index.ts#L18">src/index.ts:18</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/414b6ad/src/index.ts#L18">src/index.ts:18</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3200,7 +3174,7 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/token.worker.ts#L13">src/token.worker.ts:13</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/414b6ad/src/token.worker.ts#L13">src/token.worker.ts:13</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3226,7 +3200,7 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/Auth0Client.ts#L115">src/Auth0Client.ts:115</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/414b6ad/src/Auth0Client.ts#L115">src/Auth0Client.ts:115</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3249,7 +3223,7 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/token.worker.ts#L7">src/token.worker.ts:7</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/414b6ad/src/token.worker.ts#L7">src/token.worker.ts:7</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3275,7 +3249,7 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/token.worker.ts#L18">src/token.worker.ts:18</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/414b6ad/src/token.worker.ts#L18">src/token.worker.ts:18</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3323,7 +3297,7 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/token.worker.ts#L10">src/token.worker.ts:10</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/414b6ad/src/token.worker.ts#L10">src/token.worker.ts:10</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3352,7 +3326,7 @@ document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/token.worker.ts#L16">src/token.worker.ts:16</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/414b6ad/src/token.worker.ts#L16">src/token.worker.ts:16</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
