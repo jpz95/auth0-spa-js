@@ -112,6 +112,10 @@ const getTokenUrl = (
   return `${domainUrl}/oauth/token`;
 };
 
+const getAuthorizeEndpoint = (endpoint: string = '') => {
+  return endpoint.startsWith('/') ? endpoint : '/authorize';
+};
+
 /**
  * @ignore
  */
@@ -145,6 +149,7 @@ export default class Auth0Client {
   private transactionManager: TransactionManager;
   private customOptions: BaseLoginOptions;
   private domainUrl: string;
+  private authorizeEndpoint: string;
   private tokenUrl: string;
   private tokenIssuer: string;
   private defaultScope: string;
@@ -170,6 +175,9 @@ export default class Auth0Client {
     this.scope = this.options.scope;
     this.transactionManager = new TransactionManager(SessionStorage);
     this.domainUrl = `https://${this.options.domain}`;
+    this.authorizeEndpoint = getAuthorizeEndpoint(
+      this.options.authorizeEndpoint
+    );
     this.tokenUrl = getTokenUrl(this.options.tokenEndpoint, this.domainUrl);
     this.tokenIssuer = getTokenIssuer(this.options.issuer, this.domainUrl);
 
@@ -224,7 +232,9 @@ export default class Auth0Client {
     };
   }
   private _authorizeUrl(authorizeOptions: AuthorizeOptions) {
-    return this._url(`/authorize?${createQueryParams(authorizeOptions)}`);
+    return this._url(
+      `${this.authorizeEndpoint}?${createQueryParams(authorizeOptions)}`
+    );
   }
   private _verifyIdToken(id_token: string, nonce?: string) {
     return verifyIdToken({

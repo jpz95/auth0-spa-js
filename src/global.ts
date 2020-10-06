@@ -82,8 +82,15 @@ export interface Auth0ClientOptions extends BaseLoginOptions {
    */
   domain: string;
   /**
+   * The endpoint used to get an API's authorization code. It assumes the domain is the host
+   * and appends the authorization endpoint to it (ex. `'example.mycompany.com'` + `'/my/authorize'`).
+   * Defaults to `/authorize`
+   */
+  authorizeEndpoint?: string;
+  /**
    * The endpoint used to get an API's access token. It assumes the domain is the host
    * and appends the token endpoint to it (ex. `'example.mycompany.com'` + `'/my/token'`).
+   * Defaults to `/oauth/token`
    */
   tokenEndpoint?: string;
   /**

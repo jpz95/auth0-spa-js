@@ -50,6 +50,7 @@ import createAuth0Client from '@jpz95/auth0-spa-js';
 //with async/await
 const auth0 = await createAuth0Client({
   domain: 'example.somesite.com', // we will prepend 'https://'
+  authorizeEndpoint: '/path/to/auth', // forms https://example.somesite.com/path/to/auth
   tokenEndpoint: '/path/to/token', // forms https://example.somesite.com/path/to/token
   client_id: '<API_CLIENT_ID>',
   redirect_uri: '<MY_CALLBACK_URL>'
@@ -60,6 +61,7 @@ import { Auth0Client } from '@jpz95/auth0-spa-js';
 
 const auth0 = new Auth0Client({
   domain: 'example.somesite.com', // we will prepend 'https://'
+  authorizeEndpoint: '/path/to/auth', // forms https://example.somesite.com/path/to/auth
   tokenEndpoint: '/path/to/token', // forms https://example.somesite.com/path/to/token
   client_id: '<API_CLIENT_ID>',
   redirect_uri: '<MY_CALLBACK_URL>'
@@ -159,6 +161,8 @@ To enable the use of refresh tokens, set the `useRefreshTokens` option to `true`
 ```js
 await createAuth0Client({
   domain: 'example.somesite.com', // we will prepend 'https://'
+  authorizeEndpoint: '/path/to/auth', // forms https://example.somesite.com/path/to/auth
+  tokenEndpoint: '/path/to/token', // forms https://example.somesite.com/path/to/token
   client_id: '<API_CLIENT_ID>',
   redirect_uri: '<MY_CALLBACK_URL>',
   useRefreshTokens: true
