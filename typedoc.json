@@ -1,0 +1,23 @@
+{
+  "out": "./docs/",
+  "readme": "./README.MD",
+  "includes": "./src",
+  "exclude": [
+    "**/__mocks__/**/*",
+    "**/__tests__/**/*",
+    "**/cypress/**/*",
+    "**/node_modules/**/*",
+    "./src/cache.ts",
+    "./src/jwt.ts",
+    "./src/storage.ts",
+    "./src/transaction-manager.ts",
+    "./src/utils.ts"
+  ],
+  "mode": "file",
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "includeDeclarations": true,
+  "stripInternal": true,
+  "hideGenerator": true,
+  "theme": "minimal"
+}

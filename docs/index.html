@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>@auth0/auth0-spa-js | @auth0/auth0-spa-js</title>
-	<meta name="description" content="Documentation for @auth0/auth0-spa-js">
+	<title>@jpz95/auth0-spa-js | @jpz95/auth0-spa-js</title>
+	<meta name="description" content="Documentation for @jpz95/auth0-spa-js">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
 /* ==========================================================================
@@ -2692,7 +2692,7 @@ img {
 		<div class="container">
 			<div class="table-wrap">
 				<div class="table-cell">
-					<strong><a href="index.html">@auth0/auth0-spa-js</a></strong>
+					<strong><a href="index.html">@jpz95/auth0-spa-js</a></strong>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -2796,6 +2796,9 @@ img {
 			<a href="globals.html#deleterefreshtoken" class="tsd-kind-icon">delete<wbr>Refresh<wbr>Token</a>
 		</li>
 		<li class=" tsd-kind-function">
+			<a href="globals.html#getauthorizeendpoint" class="tsd-kind-icon">get<wbr>Authorize<wbr>Endpoint</a>
+		</li>
+		<li class=" tsd-kind-function">
 			<a href="globals.html#getrefreshtoken" class="tsd-kind-icon">get<wbr>Refresh<wbr>Token</a>
 		</li>
 		<li class=" tsd-kind-function">
@@ -2812,8 +2815,8 @@ img {
 <div class="container container-main">
 	<div class="content-wrap">
 		<div class="tsd-panel tsd-typography">
-			<a href="#auth0auth0-spa-js" id="auth0auth0-spa-js" style="color: inherit; text-decoration: none;">
-				<h1>@auth0/auth0-spa-js</h1>
+			<a href="#jpz95auth0-spa-js" id="jpz95auth0-spa-js" style="color: inherit; text-decoration: none;">
+				<h1>@jpz95/auth0-spa-js</h1>
 			</a>
 			<p>Auth0 SDK for Single Page Applications using <a href="https://auth0.com/docs/api-auth/tutorials/authorization-code-grant-pkce">Authorization Code Grant Flow with PKCE</a>.</p>
 			<p><a href="https://circleci.com/gh/auth0/auth0-spa-js"><img src="https://circleci.com/gh/auth0/auth0-spa-js.svg?style=svg" alt="CircleCI"></a>
@@ -2844,12 +2847,10 @@ img {
 			<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 				<h2>Installation</h2>
 			</a>
-			<p>From the CDN:</p>
-			<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.auth0.com/js/auth0-spa-js/1.11/auth0-spa-js.production.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 			<p>Using <a href="https://npmjs.org">npm</a>:</p>
-			<pre><code class="language-sh">npm install @auth0/auth0-spa-js</code></pre>
+			<pre><code class="language-sh">npm install @jpz95/auth0-spa-js</code></pre>
 			<p>Using <a href="https://yarnpkg.com">yarn</a>:</p>
-			<pre><code class="language-sh">yarn add @auth0/auth0-spa-js</code></pre>
+			<pre><code class="language-sh">yarn add @jpz95/auth0-spa-js</code></pre>
 			<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
 				<h2>Getting Started</h2>
 			</a>
@@ -2857,30 +2858,25 @@ img {
 				<h3>Creating the client</h3>
 			</a>
 			<p>Create an <code>Auth0Client</code> instance before rendering or initializing your application. You should only have one instance of the client.</p>
-			<pre><code class="language-js"><span class="hljs-keyword">import</span> createAuth0Client <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@auth0/auth0-spa-js&#x27;</span>;
+			<pre><code class="language-js"><span class="hljs-keyword">import</span> createAuth0Client <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@jpz95/auth0-spa-js&#x27;</span>;
 
 <span class="hljs-comment">//with async/await</span>
 <span class="hljs-keyword">const</span> auth0 = <span class="hljs-keyword">await</span> createAuth0Client({
-  <span class="hljs-attr">domain</span>: <span class="hljs-string">&#x27;&lt;AUTH0_DOMAIN&gt;&#x27;</span>,
-  <span class="hljs-attr">client_id</span>: <span class="hljs-string">&#x27;&lt;AUTH0_CLIENT_ID&gt;&#x27;</span>,
+  <span class="hljs-attr">domain</span>: <span class="hljs-string">&#x27;example.somesite.com&#x27;</span>, <span class="hljs-comment">// we will prepend &#x27;https://&#x27;</span>
+  <span class="hljs-attr">authorizeEndpoint</span>: <span class="hljs-string">&#x27;/path/to/auth&#x27;</span>, <span class="hljs-comment">// forms https://example.somesite.com/path/to/auth</span>
+  <span class="hljs-attr">tokenEndpoint</span>: <span class="hljs-string">&#x27;/path/to/token&#x27;</span>, <span class="hljs-comment">// forms https://example.somesite.com/path/to/token</span>
+  <span class="hljs-attr">client_id</span>: <span class="hljs-string">&#x27;&lt;API_CLIENT_ID&gt;&#x27;</span>,
   <span class="hljs-attr">redirect_uri</span>: <span class="hljs-string">&#x27;&lt;MY_CALLBACK_URL&gt;&#x27;</span>
-});
-
-<span class="hljs-comment">//with promises</span>
-createAuth0Client({
-  <span class="hljs-attr">domain</span>: <span class="hljs-string">&#x27;&lt;AUTH0_DOMAIN&gt;&#x27;</span>,
-  <span class="hljs-attr">client_id</span>: <span class="hljs-string">&#x27;&lt;AUTH0_CLIENT_ID&gt;&#x27;</span>,
-  <span class="hljs-attr">redirect_uri</span>: <span class="hljs-string">&#x27;&lt;MY_CALLBACK_URL&gt;&#x27;</span>
-}).then(<span class="hljs-function"><span class="hljs-params">auth0</span> =&gt;</span> {
-  <span class="hljs-comment">//...</span>
 });
 
 <span class="hljs-comment">//or, you can just instantiate the client on it&#x27;s own</span>
-<span class="hljs-keyword">import</span> { Auth0Client } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@auth0/auth0-spa-js&#x27;</span>;
+<span class="hljs-keyword">import</span> { Auth0Client } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@jpz95/auth0-spa-js&#x27;</span>;
 
 <span class="hljs-keyword">const</span> auth0 = <span class="hljs-keyword">new</span> Auth0Client({
-  <span class="hljs-attr">domain</span>: <span class="hljs-string">&#x27;&lt;AUTH0_DOMAIN&gt;&#x27;</span>,
-  <span class="hljs-attr">client_id</span>: <span class="hljs-string">&#x27;&lt;AUTH0_CLIENT_ID&gt;&#x27;</span>,
+  <span class="hljs-attr">domain</span>: <span class="hljs-string">&#x27;example.somesite.com&#x27;</span>, <span class="hljs-comment">// we will prepend &#x27;https://&#x27;</span>
+  <span class="hljs-attr">authorizeEndpoint</span>: <span class="hljs-string">&#x27;/path/to/auth&#x27;</span>, <span class="hljs-comment">// forms https://example.somesite.com/path/to/auth</span>
+  <span class="hljs-attr">tokenEndpoint</span>: <span class="hljs-string">&#x27;/path/to/token&#x27;</span>, <span class="hljs-comment">// forms https://example.somesite.com/path/to/token</span>
+  <span class="hljs-attr">client_id</span>: <span class="hljs-string">&#x27;&lt;API_CLIENT_ID&gt;&#x27;</span>,
   <span class="hljs-attr">redirect_uri</span>: <span class="hljs-string">&#x27;&lt;MY_CALLBACK_URL&gt;&#x27;</span>
 });
 
@@ -2909,65 +2905,30 @@ createAuth0Client({
   <span class="hljs-comment">//logged in. you can get the user profile like this:</span>
   <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> auth0.getUser();
   <span class="hljs-built_in">console</span>.log(user);
-});
-
-<span class="hljs-comment">//with promises</span>
-
-<span class="hljs-comment">//redirect to the Universal Login Page</span>
-<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;login&#x27;</span>).addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-  auth0.loginWithRedirect().catch(<span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-comment">//error while redirecting the user</span>
-  });
-});
-
-<span class="hljs-comment">//in your callback route (&lt;MY_CALLBACK_URL&gt;)</span>
-<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;load&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-  auth0.handleRedirectCallback().then(<span class="hljs-function"><span class="hljs-params">redirectResult</span> =&gt;</span> {
-    <span class="hljs-comment">//logged in. you can get the user profile like this:</span>
-    auth0.getUser().then(<span class="hljs-function"><span class="hljs-params">user</span> =&gt;</span> {
-      <span class="hljs-built_in">console</span>.log(user);
-    });
-  });
 });</code></pre>
 			<a href="#2---calling-an-api" id="2---calling-an-api" style="color: inherit; text-decoration: none;">
 				<h3>2 - Calling an API</h3>
 			</a>
 			<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;call-api&quot;</span>&gt;</span>Call an API<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
-			<pre><code class="language-js"><span class="hljs-comment">//with async/await</span>
-<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;call-api&#x27;</span>).addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-keyword">async</span> () =&gt; {
-  <span class="hljs-keyword">const</span> accessToken = <span class="hljs-keyword">await</span> auth0.getTokenSilently();
-  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">&#x27;https://myapi.com&#x27;</span>, {
-    <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;GET&#x27;</span>,
-    <span class="hljs-attr">headers</span>: {
-      <span class="hljs-attr">Authorization</span>: <span class="hljs-string">`Bearer <span class="hljs-subst">${accessToken}</span>`</span>
+			<pre><code class="language-js">//with async/await
+document.getElementById(&#x27;call-api&#x27;).addEventListener(&#x27;click&#x27;, async () =&gt; {
+  const accessToken = await auth0.getTokenSilently();
+  const result = await fetch(&#x27;https://myapi.com&#x27;, {
+    method: &#x27;GET&#x27;,
+    headers: {
+      Authorization: `Bearer ${accessToken}`
     }
   });
-  <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> result.json();
-  <span class="hljs-built_in">console</span>.log(data);
+  const data = await result.json();
+  console.log(data);
 });
 
-<span class="hljs-comment">//with promises</span>
-<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;call-api&#x27;</span>).addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-  auth0
-    .getTokenSilently()
-    .then(<span class="hljs-function"><span class="hljs-params">accessToken</span> =&gt;</span>
-      fetch(<span class="hljs-string">&#x27;https://myapi.com&#x27;</span>, {
-        <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;GET&#x27;</span>,
-        <span class="hljs-attr">headers</span>: {
-          <span class="hljs-attr">Authorization</span>: <span class="hljs-string">`Bearer <span class="hljs-subst">${accessToken}</span>`</span>
-        }
-      })
-    )
-    .then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> result.json())
-    .then(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> {
-      <span class="hljs-built_in">console</span>.log(data);
-    });
-});</code></pre>
-			<a href="#3---logout" id="3---logout" style="color: inherit; text-decoration: none;">
-				<h3>3 - Logout</h3>
-			</a>
-			<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;logout&quot;</span>&gt;</span>Logout<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
-			<pre><code class="language-js"><span class="hljs-keyword">import</span> createAuth0Client <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@auth0/auth0-spa-js&#x27;</span>;
+
+### 3 - Logout
+
+```html
+&lt;button id=&quot;logout&quot;&gt;Logout&lt;/button&gt;</code></pre>
+			<pre><code class="language-js"><span class="hljs-keyword">import</span> createAuth0Client <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@jpz95/auth0-spa-js&#x27;</span>;
 
 <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;logout&#x27;</span>).addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
   auth0.logout();
@@ -2978,8 +2939,8 @@ createAuth0Client({
 			<p>The SDK can be configured to cache ID tokens and access tokens either in memory or in local storage. The default is in memory. This setting can be controlled using the <code>cacheLocation</code> option when creating the Auth0 client.</p>
 			<p>To use the in-memory mode, no additional options need are required as this is the default setting. To configure the SDK to cache data using local storage, set <code>cacheLocation</code> as follows:</p>
 			<pre><code class="language-js"><span class="hljs-keyword">await</span> createAuth0Client({
-  <span class="hljs-attr">domain</span>: <span class="hljs-string">&#x27;&lt;AUTH0_DOMAIN&gt;&#x27;</span>,
-  <span class="hljs-attr">client_id</span>: <span class="hljs-string">&#x27;&lt;AUTH0_CLIENT_ID&gt;&#x27;</span>,
+  <span class="hljs-attr">domain</span>: <span class="hljs-string">&#x27;example.somesite.com&#x27;</span>, <span class="hljs-comment">// we will prepend &#x27;https://&#x27;</span>
+  <span class="hljs-attr">client_id</span>: <span class="hljs-string">&#x27;&lt;API_CLIENT_ID&gt;&#x27;</span>,
   <span class="hljs-attr">redirect_uri</span>: <span class="hljs-string">&#x27;&lt;MY_CALLBACK_URL&gt;&#x27;</span>,
   <span class="hljs-attr">cacheLocation</span>: <span class="hljs-string">&#x27;localstorage&#x27;</span> <span class="hljs-comment">// valid values are: &#x27;memory&#x27; or &#x27;localstorage&#x27;</span>
 });</code></pre>
@@ -2990,13 +2951,14 @@ createAuth0Client({
 			<p>Refresh tokens can be used to request new access tokens. <a href="https://auth0.com/docs/tokens/concepts/refresh-token-rotation">Read more about how our refresh tokens work for browser-based applications</a> to help you decide whether or not you need to use them.</p>
 			<p>To enable the use of refresh tokens, set the <code>useRefreshTokens</code> option to <code>true</code>:</p>
 			<pre><code class="language-js"><span class="hljs-keyword">await</span> createAuth0Client({
-  <span class="hljs-attr">domain</span>: <span class="hljs-string">&#x27;&lt;AUTH0_DOMAIN&gt;&#x27;</span>,
-  <span class="hljs-attr">client_id</span>: <span class="hljs-string">&#x27;&lt;AUTH0_CLIENT_ID&gt;&#x27;</span>,
+  <span class="hljs-attr">domain</span>: <span class="hljs-string">&#x27;example.somesite.com&#x27;</span>, <span class="hljs-comment">// we will prepend &#x27;https://&#x27;</span>
+  <span class="hljs-attr">authorizeEndpoint</span>: <span class="hljs-string">&#x27;/path/to/auth&#x27;</span>, <span class="hljs-comment">// forms https://example.somesite.com/path/to/auth</span>
+  <span class="hljs-attr">tokenEndpoint</span>: <span class="hljs-string">&#x27;/path/to/token&#x27;</span>, <span class="hljs-comment">// forms https://example.somesite.com/path/to/token</span>
+  <span class="hljs-attr">client_id</span>: <span class="hljs-string">&#x27;&lt;API_CLIENT_ID&gt;&#x27;</span>,
   <span class="hljs-attr">redirect_uri</span>: <span class="hljs-string">&#x27;&lt;MY_CALLBACK_URL&gt;&#x27;</span>,
   <span class="hljs-attr">useRefreshTokens</span>: <span class="hljs-literal">true</span>
 });</code></pre>
-			<p>Using this setting will cause the SDK to automatically send the <code>offline_access</code> scope to the authorization server. Refresh tokens will then be used to exchange for new access tokens instead of using a hidden iframe, and calls the <code>/oauth/token</code> endpoint directly. This means that in most cases the SDK does not rely on third-party cookies when using refresh tokens.</p>
-			<p><strong>Note</strong> This configuration option requires Rotating Refresh Tokens to be <a href="https://auth0.com/docs/tokens/guides/configure-refresh-token-rotation">enabled for your Auth0 Tenant</a>.</p>
+			<p>Using this setting will cause the SDK to automatically request a new refresh token from the authorization server. Refresh tokens will then be used to exchange for new access tokens instead of using a hidden iframe, and calls the token endpoint directly. This means that in most cases the SDK does not rely on third-party cookies when using refresh tokens.</p>
 			<a href="#refresh-token-fallback" id="refresh-token-fallback" style="color: inherit; text-decoration: none;">
 				<h4>Refresh Token fallback</h4>
 			</a>
@@ -3007,30 +2969,14 @@ createAuth0Client({
 				<h3>Advanced options</h3>
 			</a>
 			<p>Advanced options can be set by specifying the <code>advancedOptions</code> property when configuring <code>Auth0Client</code>. Learn about the complete set of advanced options in the <a href="https://auth0.github.io/auth0-spa-js/interfaces/advancedoptions.html">API documentation</a></p>
-			<pre><code class="language-js">createAuth0Client({
-  <span class="hljs-attr">domain</span>: <span class="hljs-string">&#x27;&lt;AUTH0_DOMAIN&gt;&#x27;</span>,
-  <span class="hljs-attr">client_id</span>: <span class="hljs-string">&#x27;&lt;AUTH0_CLIENT_ID&gt;&#x27;</span>,
-  <span class="hljs-attr">advancedOptions</span>: {
-    <span class="hljs-attr">defaultScope</span>: <span class="hljs-string">&#x27;email&#x27;</span> <span class="hljs-comment">// change the scopes that are applied to every authz request. **Note**: `openid` is always specified regardless of this setting</span>
-  }
-});</code></pre>
-			<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
-				<h2>Contributing</h2>
-			</a>
-			<p>We appreciate feedback and contribution to this repo! Before you get started, please see the following:</p>
-			<ul>
-				<li><a href="https://github.com/auth0/open-source-template/blob/master/GENERAL-CONTRIBUTING.md">Auth0&#39;s general contribution guidelines</a></li>
-				<li><a href="https://github.com/auth0/open-source-template/blob/master/CODE-OF-CONDUCT.md">Auth0&#39;s code of conduct guidelines</a></li>
-				<li><a href="https://github.com/auth0/auth0-spa-js/blob/master/CONTRIBUTING.md">This repo&#39;s contribution guide</a></li>
-			</ul>
 			<a href="#support--feedback" id="support--feedback" style="color: inherit; text-decoration: none;">
 				<h2>Support + Feedback</h2>
 			</a>
-			<p>For support or to provide feedback, please <a href="https://github.com/auth0/auth0-spa-js/issues">raise an issue on our issue tracker</a>.</p>
+			<p>For support or to provide feedback, please <a href="https://github.com/jpz95/auth0-spa-js/issues">raise an issue on our issue tracker</a>.</p>
 			<a href="#frequently-asked-questions" id="frequently-asked-questions" style="color: inherit; text-decoration: none;">
 				<h2>Frequently Asked Questions</h2>
 			</a>
-			<p>For a rundown of common issues you might encounter when using the SDK, please check out <a href="https://github.com/auth0/auth0-spa-js/blob/master/FAQ.md">the FAQ</a>.</p>
+			<p>For a rundown of common issues you might encounter when using the SDK, please check out <a href="https://github.com/jpz95/auth0-spa-js/blob/master/FAQ.md">the FAQ</a>.</p>
 			<a href="#vulnerability-reporting" id="vulnerability-reporting" style="color: inherit; text-decoration: none;">
 				<h2>Vulnerability Reporting</h2>
 			</a>
@@ -3051,7 +2997,7 @@ createAuth0Client({
 			<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 				<h2>License</h2>
 			</a>
-			<p>This project is licensed under the MIT license. See the <a href="https://github.com/auth0/auth0-spa-js/blob/master/LICENSE">LICENSE</a> file for more info.</p>
+			<p>This project is licensed under the MIT license. See the <a href="https://github.com/jpz95/auth0-spa-js/blob/master/LICENSE">LICENSE</a> file for more info.</p>
 			<p><a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fauth0%2Fauth0-spa-js?ref=badge_large"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fauth0%2Fauth0-spa-js.svg?type=large" alt="FOSSA Status"></a></p>
 		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
@@ -3107,6 +3053,7 @@ createAuth0Client({
 							<li class="tsd-kind-function"><a href="globals.html#cachekey" class="tsd-kind-icon">cache<wbr>Key</a></li>
 							<li class="tsd-kind-function"><a href="globals.html#createauth0client" class="tsd-kind-icon">create<wbr>Auth0<wbr>Client</a></li>
 							<li class="tsd-kind-function"><a href="globals.html#deleterefreshtoken" class="tsd-kind-icon">delete<wbr>Refresh<wbr>Token</a></li>
+							<li class="tsd-kind-function"><a href="globals.html#getauthorizeendpoint" class="tsd-kind-icon">get<wbr>Authorize<wbr>Endpoint</a></li>
 							<li class="tsd-kind-function"><a href="globals.html#getrefreshtoken" class="tsd-kind-icon">get<wbr>Refresh<wbr>Token</a></li>
 							<li class="tsd-kind-function"><a href="globals.html#messagehandler" class="tsd-kind-icon">message<wbr>Handler</a></li>
 							<li class="tsd-kind-function"><a href="globals.html#setrefreshtoken" class="tsd-kind-icon">set<wbr>Refresh<wbr>Token</a></li>
@@ -3124,7 +3071,7 @@ createAuth0Client({
 				<div class="tsd-signature tsd-kind-icon">Cache<wbr>Location<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"memory"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"localstorage"</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/auth0/auth0-spa-js/blob/5a4c0c8/src/global.ts#L152">src/global.ts:152</a></li>
+						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/global.ts#L164">src/global.ts:164</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3139,7 +3086,7 @@ createAuth0Client({
 				<div class="tsd-signature tsd-kind-icon">get<wbr>IdToken<wbr>Claims<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="interfaces/getidtokenclaimsoptions.html" class="tsd-signature-type">GetIdTokenClaimsOptions</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/auth0/auth0-spa-js/blob/5a4c0c8/src/global.ts#L235">src/global.ts:235</a></li>
+						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/global.ts#L247">src/global.ts:247</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3152,7 +3099,7 @@ createAuth0Client({
 				<div class="tsd-signature tsd-kind-icon">CACHE_<wbr>LOCATION_<wbr>LOCAL_<wbr>STORAGE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"localstorage"</span><span class="tsd-signature-symbol"> = &quot;localstorage&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/auth0/auth0-spa-js/blob/5a4c0c8/src/constants.ts#L31">src/constants.ts:31</a></li>
+						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/constants.ts#L31">src/constants.ts:31</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3162,7 +3109,7 @@ createAuth0Client({
 				<div class="tsd-signature tsd-kind-icon">CACHE_<wbr>LOCATION_<wbr>MEMORY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"memory"</span><span class="tsd-signature-symbol"> = &quot;memory&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/auth0/auth0-spa-js/blob/5a4c0c8/src/constants.ts#L30">src/constants.ts:30</a></li>
+						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/constants.ts#L30">src/constants.ts:30</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3172,7 +3119,7 @@ createAuth0Client({
 				<div class="tsd-signature tsd-kind-icon">MISSING_<wbr>REFRESH_<wbr>TOKEN_<wbr>ERROR_<wbr>MESSAGE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"The web worker is missing the refresh token"</span><span class="tsd-signature-symbol"> = &quot;The web worker is missing the refresh token&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/auth0/auth0-spa-js/blob/5a4c0c8/src/constants.ts#L32">src/constants.ts:32</a></li>
+						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/constants.ts#L32">src/constants.ts:32</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -3182,7 +3129,7 @@ createAuth0Client({
 				<div class="tsd-signature tsd-kind-icon">refresh<wbr>Tokens<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/auth0/auth0-spa-js/blob/5a4c0c8/src/token.worker.ts#L3">src/token.worker.ts:3</a></li>
+						<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/token.worker.ts#L3">src/token.worker.ts:3</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -3204,7 +3151,7 @@ createAuth0Client({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/auth0/auth0-spa-js/blob/5a4c0c8/src/token.worker.ts#L5">src/token.worker.ts:5</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/token.worker.ts#L5">src/token.worker.ts:5</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3230,7 +3177,7 @@ createAuth0Client({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/auth0/auth0-spa-js/blob/5a4c0c8/src/index.ts#L18">src/index.ts:18</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/index.ts#L18">src/index.ts:18</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3253,7 +3200,7 @@ createAuth0Client({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/auth0/auth0-spa-js/blob/5a4c0c8/src/token.worker.ts#L13">src/token.worker.ts:13</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/token.worker.ts#L13">src/token.worker.ts:13</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3270,6 +3217,29 @@ createAuth0Client({
 				</ul>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-function">
+				<a name="getauthorizeendpoint" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagConst">Const</span> get<wbr>Authorize<wbr>Endpoint</h3>
+				<ul class="tsd-signatures tsd-kind-function">
+					<li class="tsd-signature tsd-kind-icon">get<wbr>Authorize<wbr>Endpoint<span class="tsd-signature-symbol">(</span>endpoint<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/Auth0Client.ts#L115">src/Auth0Client.ts:115</a></li>
+							</ul>
+						</aside>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5><span class="tsd-flag ts-flagDefault value">Default value</span> endpoint: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-function">
 				<a name="getrefreshtoken" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagConst">Const</span> get<wbr>Refresh<wbr>Token</h3>
 				<ul class="tsd-signatures tsd-kind-function">
@@ -3279,7 +3249,7 @@ createAuth0Client({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/auth0/auth0-spa-js/blob/5a4c0c8/src/token.worker.ts#L7">src/token.worker.ts:7</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/token.worker.ts#L7">src/token.worker.ts:7</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3305,7 +3275,7 @@ createAuth0Client({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/auth0/auth0-spa-js/blob/5a4c0c8/src/token.worker.ts#L18">src/token.worker.ts:18</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/token.worker.ts#L18">src/token.worker.ts:18</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3353,7 +3323,7 @@ createAuth0Client({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/auth0/auth0-spa-js/blob/5a4c0c8/src/token.worker.ts#L10">src/token.worker.ts:10</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/token.worker.ts#L10">src/token.worker.ts:10</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3382,7 +3352,7 @@ createAuth0Client({
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/auth0/auth0-spa-js/blob/5a4c0c8/src/token.worker.ts#L16">src/token.worker.ts:16</a></li>
+								<li>Defined in <a href="https://github.com/jpz95/auth0-spa-js/blob/f71d91d/src/token.worker.ts#L16">src/token.worker.ts:16</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
