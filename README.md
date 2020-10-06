@@ -1,10 +1,8 @@
 # @jpz95/auth0-spa-js
 
-Auth0 SDK for Single Page Applications using [Authorization Code Grant Flow with PKCE](https://auth0.com/docs/api-auth/tutorials/authorization-code-grant-pkce).
+Auth0 SDK for Single Page Applications using [Authorization Code Grant Flow with PKCE](https://auth0.com/docs/flows/authorization-code-flow-with-proof-key-for-code-exchange-pkce).
 
-[![CircleCI](https://circleci.com/gh/auth0/auth0-spa-js.svg?style=svg)](https://circleci.com/gh/auth0/auth0-spa-js)
 [![License](https://img.shields.io/:license-mit-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fauth0%2Fauth0-spa-js.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fauth0%2Fauth0-spa-js?ref=badge_shield)
 
 ## Table of Contents
 
@@ -14,15 +12,11 @@ Auth0 SDK for Single Page Applications using [Authorization Code Grant Flow with
 - [Contributing](#contributing)
 - [Support + Feedback](#support--feedback)
 - [Frequently Asked Questions](#frequently-asked-questions)
-- [Vulnerability Reporting](#vulnerability-reporting)
-- [What is Auth0](#what-is-auth0)
 - [License](#license)
 
-## Documentation
+## API Docs
 
-- [Documentation](https://auth0.com/docs/libraries/auth0-spa-js)
-- [API reference](https://auth0.github.io/auth0-spa-js/)
-- [Migrate from Auth0.js to the Auth0 Single Page App SDK](https://auth0.com/docs/libraries/auth0-spa-js/migrate-from-auth0js)
+- [API reference](https://jpz95.github.io/auth0-spa-js/)
 
 ## Installation
 
@@ -144,6 +138,8 @@ To use the in-memory mode, no additional options need are required as this is th
 ```js
 await createAuth0Client({
   domain: 'example.somesite.com', // we will prepend 'https://'
+  authorizeEndpoint: '/path/to/auth', // forms https://example.somesite.com/path/to/auth
+  tokenEndpoint: '/path/to/token', // forms https://example.somesite.com/path/to/token
   client_id: '<API_CLIENT_ID>',
   redirect_uri: '<MY_CALLBACK_URL>',
   cacheLocation: 'localstorage' // valid values are: 'memory' or 'localstorage'
@@ -179,10 +175,6 @@ If the fallback mechanism fails, a `login_required` error will be thrown and cou
 
 **Note**: This fallback mechanism does still require access to the Auth0 session cookie, so if third-party cookies are being blocked then this fallback will not work and the user must re-authenticate in order to get a new refresh token.
 
-### Advanced options
-
-Advanced options can be set by specifying the `advancedOptions` property when configuring `Auth0Client`. Learn about the complete set of advanced options in the [API documentation](https://auth0.github.io/auth0-spa-js/interfaces/advancedoptions.html)
-
 ## Support + Feedback
 
 For support or to provide feedback, please [raise an issue on our issue tracker](https://github.com/jpz95/auth0-spa-js/issues).
@@ -191,25 +183,6 @@ For support or to provide feedback, please [raise an issue on our issue tracker]
 
 For a rundown of common issues you might encounter when using the SDK, please check out [the FAQ](https://github.com/jpz95/auth0-spa-js/blob/master/FAQ.md).
 
-## Vulnerability Reporting
-
-Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
-
-## What is Auth0?
-
-Auth0 helps you to easily:
-
-- implement authentication with multiple identity providers, including social (e.g., Google, Facebook, Microsoft, LinkedIn, GitHub, Twitter, etc), or enterprise (e.g., Windows Azure AD, Google Apps, Active Directory, ADFS, SAML, etc.)
-- log in users with username/password databases, passwordless, or multi-factor authentication
-- link multiple user accounts together
-- generate signed JSON Web Tokens to authorize your API calls and flow the user identity securely
-- access demographics and analytics detailing how, when, and where users are logging in
-- enrich user profiles from other data sources using customizable JavaScript rules
-
-[Why Auth0?](https://auth0.com/why-auth0)
-
 ## License
 
 This project is licensed under the MIT license. See the [LICENSE](https://github.com/jpz95/auth0-spa-js/blob/master/LICENSE) file for more info.
-
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fauth0%2Fauth0-spa-js.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fauth0%2Fauth0-spa-js?ref=badge_large)
