@@ -52,11 +52,7 @@
               id="logout"
               data-cy="logout"
             >
-              logout (default)
-            </button>
-
-            <button class="btn btn-outline-primary" @click="logoutNoClient">
-              logout (no client id)
+              logout
             </button>
           </div>
         </div>
@@ -507,15 +503,7 @@
               });
           },
           logout: function () {
-            this.auth0.logout({
-              returnTo: 'http://localhost:3000/'
-            });
-          },
-          logoutNoClient: function () {
-            this.auth0.logout({
-              client_id: null,
-              returnTo: 'http://localhost:3000/'
-            });
+            this.auth0.logout();
           }
         }
       });
