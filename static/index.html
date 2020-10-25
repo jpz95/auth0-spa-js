@@ -13,7 +13,7 @@
 
   <body>
     <div id="app" class="container">
-      <div v-if="!loading" style="visibility: hidden;">
+      <div v-if="!loading" style="visibility: hidden">
         <span id="loaded">loaded</span>
       </div>
 
@@ -133,9 +133,7 @@
         </div>
 
         <div class="card mb-3" v-if="id_token">
-          <div class="card-header">
-            ID Token
-          </div>
+          <div class="card-header">ID Token</div>
           <div class="card-body">
             {{ id_token | concat }} (<a
               :href="'https://jwt.io?token=' + id_token"
@@ -154,6 +152,26 @@
             class="form-control"
             id="domain"
             v-model="domain"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="tokenEndpoint">Token Endpoint</label>
+          <input
+            type="text"
+            class="form-control"
+            id="tokenEndpoint"
+            v-model="tokenEndpoint"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="authorizeEndpoint">Authorization Endpoint</label>
+          <input
+            type="text"
+            class="form-control"
+            id="authorizeEndpoint"
+            v-model="authorizeEndpoint"
           />
         </div>
 
@@ -237,9 +255,7 @@
           >
         </div>
 
-        <button @click="saveForm" class="btn btn-primary">
-          Save
-        </button>
+        <button @click="saveForm" class="btn btn-primary">Save</button>
 
         <button
           @click="resetForm"
@@ -284,17 +300,15 @@
             id_token: '',
             isAuthenticated: false,
             domain: data.domain || defaultDomain,
+            tokenEndpoint: data.tokenEndpoint || '',
+            authorizeEndpoint: data.authorizeEndpoint || '',
+            scope: data.scope || 'user-read-email',
             clientId: data.clientId || defaultClientId,
             audience: data.audience || defaultAudience,
             audienceScopes: [
               {
                 audience: data.audience || defaultAudience,
-                scope: 'openid profile email',
-                access_tokens: []
-              },
-              {
-                audience: 'https://' + data.domain + '/api/v2/',
-                scope: 'read:rules',
+                scope: 'user-read-email',
                 access_tokens: []
               }
             ],
@@ -349,7 +363,10 @@
               _init(
                 new Auth0Client({
                   domain: _self.domain,
+                  authorizeEndpoint: _self.authorizeEndpoint,
+                  tokenEndpoint: _self.tokenEndpoint,
                   client_id: _self.clientId,
+                  scope: _self.scope,
                   cacheLocation: _self.useLocalStorage
                     ? 'localstorage'
                     : 'memory',
@@ -362,7 +379,10 @@
 
               createAuth0Client({
                 domain: _self.domain,
+                authorizeEndpoint: _self.authorizeEndpoint,
+                tokenEndpoint: _self.tokenEndpoint,
                 client_id: _self.clientId,
+                scope: _self.scope,
                 cacheLocation: _self.useLocalStorage
                   ? 'localstorage'
                   : 'memory',
@@ -376,6 +396,8 @@
               'spa-playground-data',
               JSON.stringify({
                 domain: this.domain,
+                authorizeEndpoint: this.authorizeEndpoint,
+                tokenEndpoint: this.tokenEndpoint,
                 clientId: this.clientId,
                 useLocalStorage: this.useLocalStorage,
                 useRefreshTokens: this.useRefreshTokens,
@@ -387,6 +409,8 @@
           },
           resetForm: function () {
             this.domain = defaultDomain;
+            this.authorizeEndpoint = '';
+            this.tokenEndpoint = '';
             this.clientId = defaultClientId;
             this.useLocalStorage = false;
             this.useRefreshTokens = false;

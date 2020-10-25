@@ -1,3 +1,4 @@
+import querystring from 'querystring';
 import { MISSING_REFRESH_TOKEN_ERROR_MESSAGE } from './constants';
 
 let refreshTokens = {};
@@ -21,13 +22,16 @@ const messageHandler = async ({
 }) => {
   let json;
   try {
-    const body = JSON.parse(opts.body);
+    const body = querystring.parse(opts.body);
     if (!body.refresh_token && body.grant_type === 'refresh_token') {
       const refreshToken = getRefreshToken(audience, scope);
       if (!refreshToken) {
         throw new Error(MISSING_REFRESH_TOKEN_ERROR_MESSAGE);
       }
-      opts.body = JSON.stringify({ ...body, refresh_token: refreshToken });
+      opts.body = querystring.stringify({
+        ...body,
+        refresh_token: refreshToken
+      });
     }
 
     const abortController = new AbortController();

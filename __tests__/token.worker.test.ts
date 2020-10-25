@@ -1,4 +1,5 @@
 import unfetch from 'unfetch';
+import querystring from 'querystring';
 import { MISSING_REFRESH_TOKEN_ERROR_MESSAGE } from '../src/constants';
 
 jest.mock('unfetch');
@@ -38,7 +39,7 @@ describe('token worker', () => {
     const response = await messageHandlerAsync({
       url: '/foo',
       method: 'POST',
-      body: JSON.stringify({})
+      body: querystring.stringify({})
     });
     expect(response.json).toEqual({
       foo: 'bar'
@@ -55,18 +56,18 @@ describe('token worker', () => {
     await messageHandlerAsync({
       url: '/foo',
       method: 'POST',
-      body: JSON.stringify({
+      body: querystring.stringify({
         grant_type: 'authorization_code'
       })
     });
     await messageHandlerAsync({
       url: '/foo',
       method: 'POST',
-      body: JSON.stringify({
+      body: querystring.stringify({
         grant_type: 'refresh_token'
       })
     });
-    expect(JSON.parse(mockFetch.mock.calls[1][1].body)).toEqual({
+    expect(querystring.parse(mockFetch.mock.calls[1][1].body)).toEqual({
       grant_type: 'refresh_token',
       refresh_token: 'foo'
     });
@@ -76,7 +77,7 @@ describe('token worker', () => {
     const response = await messageHandlerAsync({
       url: '/foo',
       method: 'POST',
-      body: JSON.stringify({
+      body: querystring.stringify({
         grant_type: 'refresh_token'
       })
     });
@@ -90,7 +91,7 @@ describe('token worker', () => {
     const response = await messageHandlerAsync({
       url: '/foo',
       method: 'POST',
-      body: JSON.stringify({})
+      body: querystring.stringify({})
     });
     expect(response.error).toEqual('fail');
   });
@@ -113,7 +114,7 @@ describe('token worker', () => {
     await messageHandlerAsync({
       url: '/foo',
       method: 'POST',
-      body: JSON.stringify({
+      body: querystring.stringify({
         grant_type: 'authorization_code'
       })
     });
@@ -121,7 +122,7 @@ describe('token worker', () => {
     await messageHandlerAsync({
       url: '/foo',
       method: 'POST',
-      body: JSON.stringify({
+      body: querystring.stringify({
         grant_type: 'refresh_token'
       })
     });
@@ -129,7 +130,7 @@ describe('token worker', () => {
     const result = await messageHandlerAsync({
       url: '/foo',
       method: 'POST',
-      body: JSON.stringify({
+      body: querystring.stringify({
         grant_type: 'refresh_token'
       })
     });

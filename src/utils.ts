@@ -1,4 +1,5 @@
 import fetch from 'unfetch';
+import querystring from 'querystring';
 
 import {
   AuthenticationResult,
@@ -348,12 +349,12 @@ export const oauthToken = async (
     scope,
     {
       method: 'POST',
-      body: JSON.stringify({
+      body: querystring.stringify({
         redirect_uri: window.location.origin,
         ...options
       }),
       headers: {
-        'Content-type': 'application/json'
+        'Content-type': 'application/x-www-form-urlencoded'
       }
     },
     worker

@@ -1,21 +1,12 @@
-import { IdToken } from './global';
-
 interface CacheKeyData {
   audience: string;
   scope: string;
   client_id: string;
 }
 
-interface DecodedToken {
-  claims: IdToken;
-  user: any;
-}
-
-interface CacheEntry {
-  id_token: string;
+export interface CacheEntry {
   access_token: string;
   expires_in: number;
-  decodedToken: DecodedToken;
   audience: string;
   scope: string;
   client_id: string;
@@ -44,8 +35,7 @@ type CachePayload = {
  * @param entry The cache entry to wrap
  */
 const wrapCacheEntry = (entry: CacheEntry): CachePayload => {
-  const expiresInTime = Math.floor(Date.now() / 1000) + entry.expires_in;
-  const expirySeconds = Math.min(expiresInTime, entry.decodedToken.claims.exp);
+  const expirySeconds = Math.floor(Date.now() / 1000) + entry.expires_in;
 
   return {
     body: entry,

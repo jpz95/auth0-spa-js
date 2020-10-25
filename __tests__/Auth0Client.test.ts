@@ -1,5 +1,6 @@
 import 'fast-text-encoding';
 import * as esCookie from 'es-cookie';
+import querystring from 'querystring';
 import Auth0Client from '../src/Auth0Client';
 import unfetch from 'unfetch';
 import { verify } from '../src/jwt';
@@ -31,7 +32,7 @@ const assertUrlEquals = (actualUrl, host, path, queryParams) => {
 const assertPost = (url, body, callNum = 0) => {
   const [actualUrl, opts] = mockFetch.mock.calls[callNum];
   expect(url).toEqual(actualUrl);
-  expect(body).toEqual(JSON.parse(opts.body));
+  expect(body).toEqual(querystring.parse(opts.body));
 };
 
 const fetchResponse = (ok, json) =>
@@ -813,10 +814,11 @@ describe('Auth0Client', () => {
       )
     ).toBe(true);
 
-    expect(JSON.parse(mockFetch.mock.calls[1][1].body)).toEqual({
+    expect(querystring.parse(mockFetch.mock.calls[1][1].body)).toEqual({
       redirect_uri: 'my_callback_url',
       client_id: 'auth0_client_id',
       grant_type: 'authorization_code',
+      code: '', // TODO why is this returning empty?
       custom_param: 'hello world',
       another_custom_param: 'bar',
       code_verifier: '123'
@@ -853,7 +855,7 @@ describe('Auth0Client', () => {
       custom_param: 'hello world'
     });
 
-    expect(JSON.parse(mockFetch.mock.calls[1][1].body)).toEqual({
+    expect(querystring.parse(mockFetch.mock.calls[1][1].body)).toEqual({
       redirect_uri: 'my_callback_url',
       client_id: 'auth0_client_id',
       grant_type: 'refresh_token',

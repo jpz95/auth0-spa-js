@@ -498,86 +498,7 @@ describe('Auth0', () => {
         undefined
       );
     });
-    it('calls `tokenVerifier.verify` with the `id_token` from in the oauth/token response', async () => {
-      const { auth0, tokenVerifier } = await setup();
 
-      await auth0.loginWithPopup({});
-      expect(tokenVerifier).toHaveBeenCalledWith({
-        id_token: TEST_ID_TOKEN,
-        nonce: TEST_ENCODED_STATE,
-        aud: 'test-client-id',
-        iss: 'https://test.auth0.com/',
-        leeway: undefined,
-        max_age: undefined
-      });
-    });
-    it('calls `tokenVerifier.verify` with the `issuer` from in the oauth/token response', async () => {
-      const { auth0, tokenVerifier } = await setup({
-        issuer: 'test-123.auth0.com'
-      });
-
-      await auth0.loginWithPopup({});
-      expect(tokenVerifier).toHaveBeenCalledWith({
-        aud: 'test-client-id',
-        id_token: TEST_ID_TOKEN,
-        nonce: TEST_ENCODED_STATE,
-        iss: 'https://test-123.auth0.com/',
-        leeway: undefined,
-        max_age: undefined
-      });
-    });
-    it('calls `tokenVerifier.verify` with the `leeway` from constructor', async () => {
-      const { auth0, tokenVerifier } = await setup({ leeway: 10 });
-
-      await auth0.loginWithPopup({});
-      expect(tokenVerifier).toHaveBeenCalledWith({
-        id_token: TEST_ID_TOKEN,
-        nonce: TEST_ENCODED_STATE,
-        aud: 'test-client-id',
-        iss: 'https://test.auth0.com/',
-        leeway: 10,
-        max_age: undefined
-      });
-    });
-    it('calls `tokenVerifier.verify` with undefined `max_age` when value set in constructor is an empty string', async () => {
-      const { auth0, tokenVerifier } = await setup({ max_age: '' });
-
-      await auth0.loginWithPopup({});
-      expect(tokenVerifier).toHaveBeenCalledWith({
-        id_token: TEST_ID_TOKEN,
-        nonce: TEST_ENCODED_STATE,
-        aud: 'test-client-id',
-        iss: 'https://test.auth0.com/',
-        leeway: undefined,
-        max_age: undefined
-      });
-    });
-    it('calls `tokenVerifier.verify` with the parsed `max_age` string from constructor', async () => {
-      const { auth0, tokenVerifier } = await setup({ max_age: '10' });
-
-      await auth0.loginWithPopup({});
-      expect(tokenVerifier).toHaveBeenCalledWith({
-        id_token: TEST_ID_TOKEN,
-        nonce: TEST_ENCODED_STATE,
-        aud: 'test-client-id',
-        iss: 'https://test.auth0.com/',
-        leeway: undefined,
-        max_age: 10
-      });
-    });
-    it('calls `tokenVerifier.verify` with the parsed `max_age` number from constructor', async () => {
-      const { auth0, tokenVerifier } = await setup({ max_age: 10 });
-
-      await auth0.loginWithPopup({});
-      expect(tokenVerifier).toHaveBeenCalledWith({
-        id_token: TEST_ID_TOKEN,
-        nonce: TEST_ENCODED_STATE,
-        aud: 'test-client-id',
-        iss: 'https://test.auth0.com/',
-        leeway: undefined,
-        max_age: 10
-      });
-    });
     it('saves cache', async () => {
       const { auth0, cache } = await setup();
 
@@ -587,11 +508,7 @@ describe('Auth0', () => {
         access_token: TEST_ACCESS_TOKEN,
         audience: 'default',
         id_token: TEST_ID_TOKEN,
-        scope: TEST_SCOPES,
-        decodedToken: {
-          claims: { sub: TEST_USER_ID, aud: TEST_CLIENT_ID },
-          user: { sub: TEST_USER_ID }
-        }
+        scope: TEST_SCOPES
       });
     });
     it('saves `auth0.is.authenticated` key in storage', async () => {
@@ -1051,20 +968,7 @@ describe('Auth0', () => {
         const arg = utils.oauthToken.mock.calls[0][0];
         expect(arg.hasOwnProperty('redirect_uri')).toBeFalsy();
       });
-      it('calls `tokenVerifier.verify` with the `id_token` from in the oauth/token response', async () => {
-        const { auth0, tokenVerifier } = await localSetup();
 
-        await auth0.handleRedirectCallback();
-
-        expect(tokenVerifier).toHaveBeenCalledWith({
-          id_token: TEST_ID_TOKEN,
-          nonce: TEST_ENCODED_STATE,
-          aud: 'test-client-id',
-          iss: 'https://test.auth0.com/',
-          leeway: undefined,
-          max_age: undefined
-        });
-      });
       it('saves cache', async () => {
         const { auth0, cache } = await localSetup();
 
@@ -1075,11 +979,7 @@ describe('Auth0', () => {
           access_token: TEST_ACCESS_TOKEN,
           audience: 'default',
           id_token: TEST_ID_TOKEN,
-          scope: TEST_SCOPES,
-          decodedToken: {
-            claims: { sub: TEST_USER_ID, aud: TEST_CLIENT_ID },
-            user: { sub: TEST_USER_ID }
-          }
+          scope: TEST_SCOPES
         });
       });
       it('saves `auth0.is.authenticated` key in storage', async () => {
@@ -1236,20 +1136,7 @@ describe('Auth0', () => {
           undefined
         );
       });
-      it('calls `tokenVerifier.verify` with the `id_token` from in the oauth/token response', async () => {
-        const { auth0, tokenVerifier } = await localSetup();
 
-        await auth0.handleRedirectCallback();
-
-        expect(tokenVerifier).toHaveBeenCalledWith({
-          id_token: TEST_ID_TOKEN,
-          nonce: TEST_ENCODED_STATE,
-          aud: 'test-client-id',
-          iss: 'https://test.auth0.com/',
-          leeway: undefined,
-          max_age: undefined
-        });
-      });
       it('saves cache', async () => {
         const { auth0, cache } = await localSetup();
 
@@ -1260,11 +1147,7 @@ describe('Auth0', () => {
           access_token: TEST_ACCESS_TOKEN,
           audience: 'default',
           id_token: TEST_ID_TOKEN,
-          scope: TEST_SCOPES,
-          decodedToken: {
-            claims: { sub: TEST_USER_ID, aud: TEST_CLIENT_ID },
-            user: { sub: TEST_USER_ID }
-          }
+          scope: TEST_SCOPES
         });
       });
       it('saves `auth0.is.authenticated` key in storage', async () => {
@@ -1296,24 +1179,17 @@ describe('Auth0', () => {
     it('returns undefined if there is no cache', async () => {
       const { auth0, cache } = await setup();
       cache.get.mockReturnValue(undefined);
-      const decodedToken = await auth0.getUser();
-      expect(decodedToken).toBeUndefined();
+      const cachedUser = await auth0.getUser();
+      expect(cachedUser).toBeUndefined();
     });
     it('returns only user information if there is a cache entry', async () => {
       const { auth0, cache } = await setup();
       const userIn = {
-        decodedToken: {
-          claims: {
-            sub: TEST_USER_ID,
-            email: TEST_USER_EMAIL,
-            aud: TEST_CLIENT_ID
-          },
-          user: { sub: TEST_USER_ID, email: TEST_USER_EMAIL }
-        }
+        access_token: TEST_ACCESS_TOKEN
       };
       cache.get.mockReturnValue(userIn);
       const userOut = await auth0.getUser();
-      expect(userOut).toEqual({ sub: TEST_USER_ID, email: TEST_USER_EMAIL });
+      expect(userOut).toEqual(userIn);
     });
     it('uses default options', async () => {
       const { auth0, cache } = await setup();
@@ -1359,25 +1235,18 @@ describe('Auth0', () => {
     it('returns undefined if there is no cache', async () => {
       const { auth0, cache } = await setup();
       cache.get.mockReturnValue(undefined);
-      const decodedToken = await auth0.getIdTokenClaims();
-      expect(decodedToken).toBeUndefined();
+      const cachedClaims = await auth0.getIdTokenClaims();
+      expect(cachedClaims).toBeUndefined();
     });
 
     it('returns full decoded token if there is a cache entry', async () => {
       const { auth0, cache } = await setup();
       const userIn = {
-        decodedToken: {
-          claims: {
-            aud: TEST_CLIENT_ID,
-            sub: TEST_USER_ID,
-            email: TEST_USER_EMAIL
-          },
-          user: { sub: TEST_USER_ID, email: TEST_USER_EMAIL }
-        }
+        access_token: TEST_ACCESS_TOKEN
       };
       cache.get.mockReturnValue(userIn);
       const userOut = await auth0.getIdTokenClaims();
-      expect(userOut).toEqual(userIn.decodedToken.claims);
+      expect(userOut).toEqual(userIn);
     });
 
     it('should respect advanced defaultScope option when provided', async () => {
@@ -1465,7 +1334,7 @@ describe('Auth0', () => {
       const { auth0 } = await setup();
       auth0.getUser = jest.fn(() =>
         Promise.resolve({
-          id: TEST_USER_ID
+          access_token: TEST_ACCESS_TOKEN
         })
       );
       const result = await auth0.isAuthenticated();
@@ -1578,7 +1447,6 @@ describe('Auth0', () => {
 
           utils.oauthToken.mockReturnValue(
             Promise.resolve({
-              id_token: TEST_ID_TOKEN,
               access_token: TEST_ACCESS_TOKEN,
               refresh_token: TEST_REFRESH_TOKEN
             })
@@ -1611,13 +1479,8 @@ describe('Auth0', () => {
             client_id: TEST_CLIENT_ID,
             refresh_token: TEST_REFRESH_TOKEN,
             access_token: TEST_ACCESS_TOKEN,
-            id_token: TEST_ID_TOKEN,
             scope: ``,
-            audience: 'default',
-            decodedToken: {
-              claims: { sub: TEST_USER_ID, aud: TEST_CLIENT_ID },
-              user: { sub: TEST_USER_ID }
-            }
+            audience: 'default'
           });
         });
 
@@ -1631,7 +1494,6 @@ describe('Auth0', () => {
 
           utils.oauthToken.mockReturnValue(
             Promise.resolve({
-              id_token: TEST_ID_TOKEN,
               access_token: TEST_ACCESS_TOKEN,
               refresh_token: TEST_REFRESH_TOKEN
             })
@@ -1664,13 +1526,8 @@ describe('Auth0', () => {
             client_id: TEST_CLIENT_ID,
             refresh_token: TEST_REFRESH_TOKEN,
             access_token: TEST_ACCESS_TOKEN,
-            id_token: TEST_ID_TOKEN,
             scope: ``,
-            audience: 'default',
-            decodedToken: {
-              claims: { sub: TEST_USER_ID, aud: TEST_CLIENT_ID },
-              user: { sub: TEST_USER_ID }
-            }
+            audience: 'default'
           });
         });
       });
@@ -1897,19 +1754,6 @@ describe('Auth0', () => {
         );
       });
 
-      it('calls `tokenVerifier.verify` with the `id_token` from in the oauth/token response', async () => {
-        const { auth0, tokenVerifier } = await setup();
-
-        await auth0.getTokenSilently(defaultOptionsIgnoreCacheTrue);
-        expect(tokenVerifier).toHaveBeenCalledWith({
-          id_token: TEST_ID_TOKEN,
-          nonce: TEST_ENCODED_STATE,
-          aud: 'test-client-id',
-          iss: 'https://test.auth0.com/',
-          leeway: undefined,
-          max_age: undefined
-        });
-      });
       it('saves cache', async () => {
         const { auth0, cache } = await setup();
 
@@ -1919,11 +1763,7 @@ describe('Auth0', () => {
           access_token: TEST_ACCESS_TOKEN,
           audience: defaultOptionsIgnoreCacheTrue.audience,
           id_token: TEST_ID_TOKEN,
-          scope: `test:scope`,
-          decodedToken: {
-            claims: { sub: TEST_USER_ID, aud: TEST_CLIENT_ID },
-            user: { sub: TEST_USER_ID }
-          }
+          scope: `test:scope`
         });
       });
       it('saves `auth0.is.authenticated` key in storage', async () => {

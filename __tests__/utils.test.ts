@@ -1,4 +1,5 @@
 import 'fast-text-encoding';
+import querystring from 'querystring';
 import {
   parseQueryResult,
   createQueryParams,
@@ -285,8 +286,8 @@ describe('utils', () => {
 
       expect(mockUnfetch).toBeCalledWith('https://test.com/oauth/token', {
         body:
-          '{"redirect_uri":"http://localhost","grant_type":"authorization_code","client_id":"client_idIn","code":"codeIn","code_verifier":"code_verifierIn"}',
-        headers: { 'Content-type': 'application/json' },
+          'redirect_uri=http%3A%2F%2Flocalhost&grant_type=authorization_code&client_id=client_idIn&code=codeIn&code_verifier=code_verifierIn',
+        headers: { 'Content-type': 'application/x-www-form-urlencoded' },
         method: 'POST',
         signal: abortController.signal
       });
@@ -324,8 +325,8 @@ describe('utils', () => {
       );
 
       expect(mockUnfetch).toBeCalledWith('https://test.com/oauth/token', {
-        body: JSON.stringify(body),
-        headers: { 'Content-type': 'application/json' },
+        body: querystring.stringify(body),
+        headers: { 'Content-type': 'application/x-www-form-urlencoded' },
         method: 'POST',
         signal: abortController.signal
       });
@@ -333,11 +334,11 @@ describe('utils', () => {
       expect(mockUnfetch.mock.calls[0][1].signal).not.toBeUndefined();
       expect(spy).toHaveBeenCalledWith(
         {
-          body: JSON.stringify(body),
+          body: querystring.stringify(body),
           audience: '__test_audience__',
           scope: '__test_scope__',
           headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/x-www-form-urlencoded'
           },
           method: 'POST',
           timeout: 10000,

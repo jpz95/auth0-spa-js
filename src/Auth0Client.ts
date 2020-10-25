@@ -14,9 +14,8 @@ import {
 } from './utils';
 
 import { getUniqueScopes } from './scope';
-import { InMemoryCache, ICache, LocalStorageCache } from './cache';
+import { CacheEntry, InMemoryCache, ICache, LocalStorageCache } from './cache';
 import TransactionManager from './transaction-manager';
-import { verify as verifyIdToken } from './jwt';
 import { AuthenticationError } from './errors';
 import {
   ClientStorage,
@@ -236,16 +235,6 @@ export default class Auth0Client {
       `${this.authorizeEndpoint}?${createQueryParams(authorizeOptions)}`
     );
   }
-  private _verifyIdToken(id_token: string, nonce?: string) {
-    return verifyIdToken({
-      iss: this.tokenIssuer,
-      aud: this.options.client_id,
-      id_token,
-      nonce,
-      leeway: this.options.leeway,
-      max_age: this._parseNumber(this.options.max_age)
-    });
-  }
   private _parseNumber(value: any): number {
     if (typeof value !== 'string') {
       return value;
@@ -366,11 +355,8 @@ export default class Auth0Client {
       this.worker
     );
 
-    const decodedToken = this._verifyIdToken(authResult.id_token, nonceIn);
-
     const cacheEntry = {
       ...authResult,
-      decodedToken,
       scope: params.scope,
       audience: params.audience || 'default',
       client_id: this.options.client_id
@@ -401,9 +387,9 @@ export default class Auth0Client {
       client_id: this.options.client_id,
       audience,
       scope
-    });
+    }) as Partial<CacheEntry>;
 
-    return cache && cache.decodedToken && cache.decodedToken.user;
+    return cache;
   }
 
   /**
@@ -423,9 +409,9 @@ export default class Auth0Client {
       client_id: this.options.client_id,
       audience,
       scope
-    });
+    }) as Partial<CacheEntry>;
 
-    return cache && cache.decodedToken && cache.decodedToken.claims;
+    return cache;
   }
 
   /**
@@ -499,14 +485,8 @@ export default class Auth0Client {
 
     const authResult = await oauthToken(tokenOptions, this.worker);
 
-    const decodedToken = this._verifyIdToken(
-      authResult.id_token,
-      transaction.nonce
-    );
-
     const cacheEntry = {
       ...authResult,
-      decodedToken,
       audience: transaction.audience,
       scope: transaction.scope,
       client_id: this.options.client_id
@@ -789,11 +769,8 @@ export default class Auth0Client {
       this.worker
     );
 
-    const decodedToken = this._verifyIdToken(tokenResult.id_token, nonceIn);
-
     return {
       ...tokenResult,
-      decodedToken,
       scope: params.scope,
       audience: params.audience || 'default'
     };
@@ -856,11 +833,8 @@ export default class Auth0Client {
       throw e;
     }
 
-    const decodedToken = this._verifyIdToken(tokenResult.id_token);
-
     return {
       ...tokenResult,
-      decodedToken,
       scope: options.scope,
       audience: options.audience || 'default'
     };
